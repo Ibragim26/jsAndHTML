@@ -1,19 +1,4 @@
 
-const people = [
-    {
-        name: 'Name1',
-        age: 20
-    },
-    {
-        name: 'Name2',
-        age: 21
-    },
-    {
-        name: 'Name3',
-        age: 22
-    },
-]
-
 
 const person = {
     name: 'Ivan',
@@ -21,10 +6,10 @@ const person = {
     job: 'developer',
     height: 175,
 }
-document.querySelector('.wrapper').innerHTML = `
-     <table class="person"> </table>`
 
-function dynTable(table, arr) {
+function dynTable(arr) {
+    document.querySelector('body')
+        .innerHTML = `<table class="tab"></table>`
     for (let i = 0; i < arr.length; i++) {
         let tr = document.createElement('tr');
         for (let j = 0; j < arr[i].length; j++) {
@@ -32,9 +17,8 @@ function dynTable(table, arr) {
             td.innerHTML = arr[i][j];
             tr.appendChild(td);
         }
-        table.appendChild(tr);
+        document.querySelector('.tab').appendChild(tr)
     }
 }
 
-dynTable(document.querySelector('.person'), Object.entries(person))
-console.log(Object.entries(person));
+dynTable(Object.entries(person))
