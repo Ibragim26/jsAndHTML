@@ -38,20 +38,72 @@ const person = {
     job: 'developer',
     height: 175,
 }
+const arr = [
 
-function dynTable(arr) {
+    ['Игровые компьютеры', '50т.р. - 80т.р', '4.6'],
+    ['Офисные компьютеры', '30т.р. - 60т.р', '4.8'],
+    ['Серверное оборудование', '100т.р. - 200т.р', '4.4'],
+    ['Ноутбуки', '50т.р. - 120т.р', '4.7'],
+    ['Принтеры, МФУ', '10т.р. - 50т.р', '4.9'],
+    ['Смартфоны', '10т.р. - 120т.р', '4.3'],
+    ['3Д принтеры', '10т.р. - 80т.р', '4.2'],
+    ['DIY электроника', '10т.р. - 50т.р', '4.1'],
+
+]
+const heads = ['Наименование', 'Цены', 'Оценка']
+// function dynTable(arr) {
+//     document.querySelector('.dynTa')
+//         .innerHTML = `<table class="tab"></table>`
+//     for (let i = 0; i < arr.length; i++) {
+//         let tr = document.createElement('tr');
+//         for (let j = 0; j < arr[i].length; j++) {
+//             let td = document.createElement('td');
+//             td.innerHTML = arr[i][j];
+//             tr.appendChild(td);
+//         }
+//         document.querySelector('.tab').appendChild(tr)
+//     }
+// }
+
+function dynTable(heads, arr) {
     document.querySelector('.dynTa')
         .innerHTML = `<table class="tab"></table>`
-    for (let i = 0; i < arr.length; i++) {
+
+    let trHead = document.createElement('tr')
+    for (let x in heads){
+        let thHead = document.createElement('th')
+        thHead.innerHTML = heads[x]
+        trHead.appendChild(thHead)
+    }
+
+    document.querySelector('.tab').appendChild(trHead)
+
+    //for (let i = 0; i < arr.length; i++) {
+    for (let keyX in arr){
+        let counter = 0
         let tr = document.createElement('tr');
-        for (let j = 0; j < arr[i].length; j++) {
+       // for (let j = 0; j < arr[i].length; j++) {
+        for (let keyY in arr[keyX]){
+
             let td = document.createElement('td');
-            td.innerHTML = arr[i][j];
+
+            if (counter === 0)
+            {
+                let a = document.createElement('a')
+                a.setAttribute('src', '#')
+                a.setAttribute('class', 'category')
+                a.innerHTML = arr[keyX][keyY]
+                td.appendChild(a)
+            }else {
+                td.innerHTML = arr[keyX][keyY];
+            }
+            counter++
             tr.appendChild(td);
+
         }
         document.querySelector('.tab').appendChild(tr)
     }
 }
 
-dynTable(Object.entries(person))
+dynTable(heads,arr)
 
