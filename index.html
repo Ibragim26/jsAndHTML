@@ -2,15 +2,116 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>QuickComp</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<div class="wrapper">
+    <header>
+        <img id="imgh" src="photo-1593640495253-23196b27a87f.jpg" alt="comp" width="300">
+        <h1>QuickComp</h1>
+    </header>
+
+    <nav>
+        <a class="menu" href="#">Компьютеры</a>
+        <a class="menu" href="#">Комплектующие</a>
+        <a class="menu" href="#">Ноутбуки, планшеты, Аксессуары</a>
+        <a class="menu" href="#">Офисная техника</a>
+        <a class="menu" href="#">Доставка</a>
+        <a class="menu" href="#">О нас</a>
+    </nav>
 
 
-    <div class="wrapper">
-
+    <div class="main">
+        <table border="2">
+            <caption>Обзор нашего магазина</caption>
+            <tr id="hed">
+                <th>Наименование</th>
+                <th>Цены</th>
+                <th>Оценка</th>
+            </tr>
+            <tr>
+                <td><a class="category" href="#">Игровые компьютеры</a></td>
+                <td>50т.р. - 80т.р</td>
+                <td>4.6</td>
+            </tr>
+            <tr>
+                <td><a class="category" href="#">Офисные компьютеры</a></td>
+                <td>30т.р. - 60т.р</td>
+                <td>4.8</td>
+            </tr>
+            <tr>
+                <td><a class="category" href="#">Серверное оборудование</a></td>
+                <td>100т.р. - 200т.р</td>
+                <td>4.4</td>
+            </tr>
+            <tr>
+                <td><a class="category" href="#">Ноутбуки</a></td>
+                <td>50т.р. - 120т.р</td>
+                <td>4.7</td>
+            </tr>
+            <tr>
+                <td><a class="category" href="#">Принтеры, МФУ</a></td>
+                <td>10т.р. - 50т.р</td>
+                <td>4.9</td>
+            </tr>
+            <tr>
+                <td><a class="category" href="#">Смартфоны</a></td>
+                <td>10т.р. - 120т.р</td>
+                <td>4.3</td>
+            </tr>
+            <tr>
+                <td><a class="category" href="#">3Д принтеры</a></td>
+                <td>10т.р. - 80т.р</td>
+                <td>4.2</td>
+            </tr>
+            <tr>
+                <td><a class="category" href="#">DIY электроника</a></td>
+                <td>10т.р. - 50т.р</td>
+                <td>4.1</td>
+            </tr>
+        </table>
+        <div class="dynTa"></div>
+        <aside>
+            <form action="">
+                <p>Выберите нужную категорию</p>
+                <select>
+                    <option>Игровые компьютеры</option>
+                    <option>Офисные компьютеры</option>
+                    <option>Серверное оборудование</option>
+                    <option>Ноутбуки</option>
+                    <option>Принтеры, МФУ</option>
+                    <option>3Д принтеры</option>
+                    <option>DIY электроника</option>
+                </select>
+                <div>
+                    <p>Задайте приемлимые цены</p>
+                    <input class="price"type="number" min="10000">
+                    <input class="price"type="number" min="10000" max="50000">
+                </div>
+                <div>
+                    <p>Выберите удобное время получения посылки</p>
+                    <input type="date">
+                    <input type="time">
+                </div>
+                <button type="submit">Найти</button>
+            </form>
+        </aside>
     </div>
+</div>
+<footer class="footer">
+    <div>
+        <p>Наши соцсети:</p>
+        <a href="vk.com"><img class="imgf" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/VK_Compact_Logo_%282021-present%29.svg/1200px-VK_Compact_Logo_%282021-present%29.svg.png" alt="vk"></a>
+        <a href="intagram.com"><img class="imgf" src="https://play-lh.googleusercontent.com/h9jWMwqb-h9hjP4THqrJ50eIwPekjv7QPmTpA85gFQ10PjV02CoGAcYLLptqd19Sa1iJ" alt="instagram"></a>
+        <div class="afooter">
+            <a href="#">О безопасности ваших персональных данных</a>|
+            <a href="#">Розничные магазины </a>|
+            <a href="#">Copyright © 2010-2021 QuickComp</a>
+        </div>
+    </div>
+</footer>
 
-    <script src="scr.js"></script>
+<script src="scr.js"></script>
 </body>
 </html>
