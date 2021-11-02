@@ -67,23 +67,23 @@ const heads = ['Наименование', 'Цены', 'Оценка']
 
 function dynTable(heads, arr) {
     document.querySelector('.dynTa')
-        .innerHTML = `<table class="tab"></table>`
+        .innerHTML = `<table class="tab" border="2"></table>`
 
     let trHead = document.createElement('tr')
-    for (let x in heads){
+    heads.forEach((elem) => {
         let thHead = document.createElement('th')
-        thHead.innerHTML = heads[x]
+        thHead.innerHTML = elem
         trHead.appendChild(thHead)
-    }
+    })
 
     document.querySelector('.tab').appendChild(trHead)
 
-    //for (let i = 0; i < arr.length; i++) {
-    for (let keyX in arr){
+    arr.forEach((elem) => {
+    //for (let keyX in arr){
         let counter = 0
         let tr = document.createElement('tr');
-       // for (let j = 0; j < arr[i].length; j++) {
-        for (let keyY in arr[keyX]){
+        elem.forEach((innerElem) => {
+        //for (let keyY in arr[keyX]){
 
             let td = document.createElement('td');
 
@@ -92,17 +92,17 @@ function dynTable(heads, arr) {
                 let a = document.createElement('a')
                 a.setAttribute('src', '#')
                 a.setAttribute('class', 'category')
-                a.innerHTML = arr[keyX][keyY]
+                a.innerHTML = innerElem
                 td.appendChild(a)
             }else {
-                td.innerHTML = arr[keyX][keyY];
+                td.innerHTML = innerElem;
             }
             counter++
             tr.appendChild(td);
 
-        }
+        })
         document.querySelector('.tab').appendChild(tr)
-    }
+    })
 }
 
 dynTable(heads,arr)
