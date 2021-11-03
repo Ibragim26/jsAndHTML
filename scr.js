@@ -101,27 +101,32 @@ function createForm(header) {
     button.setAttribute('id', 'but');
     button.innerHTML = 'Отправить';
 
-    button.addEventListener('click', {handleEvent: addNew, header})
+    button.addEventListener('click', ()=>{addNew(header)})
+
 
     document.querySelector('.insert').appendChild(button);
 }
 
 
 
-function addNew(event) {
+function addNew(header) {
 
+    let tmpForHeader = header
 
-    let temp = []
-    this.header.forEach((head) =>{
-        temp.push(document.querySelector(`#${head.field}`).innerHTML)
-        //как сделать так чтобы данные подхватывались
+    let temp = {}
+    header.forEach((head) => {
+        temp[`${head.field}`] = document.getElementById(`${head.field}`).value
+        document.getElementById(`${head.field}`).value = ''
     })
+    content.push(temp)
+
+    document.querySelector('.tab').remove()
 
 
 
-
+    createTable(tmpForHeader);
+    fillTable(content, tmpForHeader);
 }
-
 createTable(header);
 fillTable(content, header);
 createForm(header)
