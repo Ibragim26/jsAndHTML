@@ -76,14 +76,11 @@ function fillTable(content, header) {
     content.forEach((elem) => {
         let tr = document.createElement('tr')
 
-        let temp = []
-        for (let x in header) {
-            temp.push(header[x].field)
-        }
 
-        temp.forEach(cat => {
+
+        header.forEach(head => {
             let td = document.createElement('td')
-            td.innerHTML = elem[cat]
+            td.innerHTML = elem[head.field]
             tr.appendChild(td)
             document.querySelector('.tab').appendChild(tr)
         })
