@@ -58,29 +58,30 @@ const header = [
     }
 ]
 
-function createTable(header, categories) {
+function createTable(header) {
     document.querySelector('.dynTa')
         .innerHTML = `<table class="tab" border="2"></table>`
     let tr = document.createElement('tr')
-    categories.forEach(cat =>{
-        header.forEach( head => {
-            if (cat === head.field){
-                let th = document.createElement('th')
-                th.innerHTML = head.name
-                tr.appendChild(th)
-            }
-        })
-        document.querySelector('.tab').appendChild(tr)
+    header.forEach( head => {
+        let th = document.createElement('th')
+        th.innerHTML = head.name
+        tr.appendChild(th)
     })
 
     
     document.querySelector('.tab').appendChild(tr)
 }
 
-function fillTable(content, category) {
+function fillTable(content, header) {
     content.forEach((elem) => {
         let tr = document.createElement('tr')
-        category.forEach(cat => {
+
+        let temp = []
+        for (let x in header) {
+            temp.push(header[x].field)
+        }
+
+        temp.forEach(cat => {
             let td = document.createElement('td')
             td.innerHTML = elem[cat]
             tr.appendChild(td)
@@ -90,7 +91,7 @@ function fillTable(content, category) {
 
 }
 
-let category = ['price', 'rating', 'category']
-createTable(header, category)
-fillTable(content, category)
+
+createTable(header)
+fillTable(content, header)
 
