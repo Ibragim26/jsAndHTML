@@ -107,20 +107,27 @@ function createForm(header) {
     document.querySelector('.insert').appendChild(button);
 }
 
-
-
 function addNew(header) {
 
-    let tmpForHeader = header
+    let tmpForHeader = header;
+    let counter = 0;
 
-    let temp = {}
+    let temp = {};
     header.forEach((head) => {
-        temp[`${head.field}`] = document.getElementById(`${head.field}`).value
-        document.getElementById(`${head.field}`).value = ''
+        if (document.getElementById(`${head.field}`).value === '')
+            counter++
+        temp[`${head.field}`] = document.getElementById(`${head.field}`).value;
+        document.getElementById(`${head.field}`).value = '';
     })
-    content.push(temp)
+    if (counter === header.length){
+        alert('your input is empty')
+        return
+    }
 
-    document.querySelector('.tab').remove()
+
+    content.push(temp);
+
+    document.querySelector('.tab').remove();
 
 
 
