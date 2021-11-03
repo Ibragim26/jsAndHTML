@@ -122,37 +122,38 @@ function dynTable(content, category) {
     document.querySelector('.dynTa')
         .innerHTML = `<table class="tab" border="2"></table>`
 
-    let head = 0
+
+
+    const temp = content[0]
     content.forEach((elem) => {
-
         let counter = 0
-
         let tr = document.createElement('tr');
-            let trHead = document.createElement('tr')
-            category.forEach(cat => {
+        let trHead = document.createElement('tr')
+        category.forEach(cat => {
+            if (elem === temp ){
                 let thHead = document.createElement('th')
-                if (head % content.length === 0) {
-                    thHead.innerHTML = elem[cat]
-                    trHead.appendChild(thHead)
+                thHead.innerHTML = elem[cat]
+                trHead.appendChild(thHead)
+            }else {
+                let td = document.createElement('td');
+                if (counter === 0) {
+                    let a = document.createElement('a')
+                    a.setAttribute('src', '#')
+                    a.setAttribute('class', 'category')
+                    a.innerHTML = elem[cat]
+                    td.appendChild(a)
+                } else {
+                    td.innerHTML = elem[cat]
                 }
-                if (head != 0){
-                    let td = document.createElement('td');
-                    if (counter === 0) {
-                        let a = document.createElement('a')
-                        a.setAttribute('src', '#')
-                        a.setAttribute('class', 'category')
-                        a.innerHTML = elem[cat]
-                        td.appendChild(a)
-                    } else {
-                        td.innerHTML = elem[cat]
-                    }
-                    counter++
-                    tr.appendChild(td);
-                    document.querySelector('.tab').appendChild(tr)
-                }
-            })
+                counter++
+                tr.appendChild(td);
+                document.querySelector('.tab').appendChild(tr)
+            }
             document.querySelector('.tab').appendChild(trHead)
-        head++
+        })
+
+
+
 
     })
     // let trHead = document.createElement('tr')
@@ -188,5 +189,5 @@ function dynTable(content, category) {
 }
 
 
-dynTable(content, ['category', 'rating', 'price'])
+dynTable(content, ['category'])
 
