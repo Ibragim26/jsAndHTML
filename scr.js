@@ -78,8 +78,8 @@ function fillTable(content, header) {
             let td = document.createElement('td');
             td.innerHTML = elem[head.field];
             tr.appendChild(td);
-            document.querySelector('.tab').appendChild(tr);
         })
+        document.querySelector('.tab').appendChild(tr);
     })
 }
 
