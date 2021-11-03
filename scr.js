@@ -38,18 +38,62 @@ const person = {
     job: 'developer',
     height: 175,
 }
-const arr = [
+// const arr = [
+//
+//     ['Игровые компьютеры', '50т.р. - 80т.р', '4.6'],
+//     ['Офисные компьютеры', '30т.р. - 60т.р', '4.8'],
+//     ['Серверное оборудование', '100т.р. - 200т.р', '4.4'],
+//     ['Ноутбуки', '50т.р. - 120т.р', '4.7'],
+//     ['Принтеры, МФУ', '10т.р. - 50т.р', '4.9'],
+//     ['Смартфоны', '10т.р. - 120т.р', '4.3'],
+//     ['3Д принтеры', '10т.р. - 80т.р', '4.2'],
+//     ['DIY электроника', '10т.р. - 50т.р', '4.1'],
+//
+// ]
 
-    ['Игровые компьютеры', '50т.р. - 80т.р', '4.6'],
-    ['Офисные компьютеры', '30т.р. - 60т.р', '4.8'],
-    ['Серверное оборудование', '100т.р. - 200т.р', '4.4'],
-    ['Ноутбуки', '50т.р. - 120т.р', '4.7'],
-    ['Принтеры, МФУ', '10т.р. - 50т.р', '4.9'],
-    ['Смартфоны', '10т.р. - 120т.р', '4.3'],
-    ['3Д принтеры', '10т.р. - 80т.р', '4.2'],
-    ['DIY электроника', '10т.р. - 50т.р', '4.1'],
-
+const content = [
+    {
+        category: 'Игровые компьютеры',
+        price: '50т.р. - 80т.р',
+        rating: '4.6'
+    },
+    {
+        category: 'Офисные компьютеры',
+        price: '30т.р. - 60т.р',
+        rating: '4.8'
+    },
+    {
+        category: 'Серверное оборудование',
+        price: '100т.р. - 200т.р',
+        rating: '4.7'
+    },
+    {
+        category: 'Ноутбуки',
+        price: '50т.р. - 120т.р',
+        rating: '4.7'
+    },
+    {
+        category: 'Принтеры, МФУ',
+        price: '10т.р. - 50т.р',
+        rating: '4.9'
+    },
+    {
+        category: 'Смартфоны',
+        price: '10т.р. - 120т.р',
+        rating: '4.3'
+    },
+    {
+        category: '3Д принтеры',
+        price: '10т.р. - 50т.р',
+        rating: '4.9'
+    },
+    {
+        category: 'DIY электроник',
+        price: '10т.р. - 50т.р',
+        rating: '4.1'
+    },
 ]
+
 const heads = ['Наименование', 'Цены', 'Оценка']
 // function dynTable(arr) {
 //     document.querySelector('.dynTa')
@@ -65,7 +109,7 @@ const heads = ['Наименование', 'Цены', 'Оценка']
 //     }
 // }
 
-function dynTable(heads, arr) {
+function dynTable(heads, content) {
     document.querySelector('.dynTa')
         .innerHTML = `<table class="tab" border="2"></table>`
 
@@ -78,32 +122,28 @@ function dynTable(heads, arr) {
 
     document.querySelector('.tab').appendChild(trHead)
 
-    arr.forEach((elem) => {
-    //for (let keyX in arr){
+    content.forEach((elem) => {
         let counter = 0
         let tr = document.createElement('tr');
-        elem.forEach((innerElem) => {
-        //for (let keyY in arr[keyX]){
 
+        for (let key in elem){
             let td = document.createElement('td');
-
             if (counter === 0)
             {
                 let a = document.createElement('a')
                 a.setAttribute('src', '#')
                 a.setAttribute('class', 'category')
-                a.innerHTML = innerElem
+                a.innerHTML = elem[key]
                 td.appendChild(a)
             }else {
-                td.innerHTML = innerElem;
+                td.innerHTML = elem[key]
             }
             counter++
             tr.appendChild(td);
-
-        })
+        }
         document.querySelector('.tab').appendChild(tr)
     })
 }
 
-dynTable(heads,arr)
+dynTable(heads, content)
 
