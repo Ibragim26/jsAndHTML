@@ -123,17 +123,17 @@ function dynTable(content, category) {
     document.querySelector('.dynTa')
         .innerHTML = `<table class="tab" border="2"></table>`
     content.forEach((elem) => {
-        let tr = document.createElement('tr');
+        let tr = document.createElement('tr')
         let trHead = document.createElement('tr')
         category.forEach(cat => {
-            if (elem === content[0] ){
+            if (elem === content[0]){
                 let thHead = document.createElement('th')
                 thHead.innerHTML = elem[cat]
                 trHead.appendChild(thHead)
             }else {
-                let td = document.createElement('td');
+                let td = document.createElement('td')
                 td.innerHTML = elem[cat]
-                tr.appendChild(td);
+                tr.appendChild(td)
                 document.querySelector('.tab').appendChild(tr)
             }
             document.querySelector('.tab').appendChild(trHead)
