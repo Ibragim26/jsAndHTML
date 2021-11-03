@@ -53,6 +53,11 @@ const person = {
 
 const content = [
     {
+        category: 'Наименование',
+        price: 'Цены',
+        rating: 'Оценка'
+    },
+    {
         category: 'Игровые компьютеры',
         price: '50т.р. - 80т.р',
         rating: '4.6'
@@ -94,7 +99,11 @@ const content = [
     },
 ]
 
-const heads = ['Наименование', 'Цены', 'Оценка']
+// const heads = {
+//     category: 'Наименование',
+//     price: 'Цены',
+//     rating: 'Оценка'
+// }
 // function dynTable(arr) {
 //     document.querySelector('.dynTa')
 //         .innerHTML = `<table class="tab"></table>`
@@ -109,41 +118,75 @@ const heads = ['Наименование', 'Цены', 'Оценка']
 //     }
 // }
 
-function dynTable(heads, content) {
+function dynTable(content, category) {
     document.querySelector('.dynTa')
         .innerHTML = `<table class="tab" border="2"></table>`
 
-    let trHead = document.createElement('tr')
-    heads.forEach((elem) => {
-        let thHead = document.createElement('th')
-        thHead.innerHTML = elem
-        trHead.appendChild(thHead)
-    })
-
-    document.querySelector('.tab').appendChild(trHead)
-
+    let head = 0
     content.forEach((elem) => {
-        let counter = 0
-        let tr = document.createElement('tr');
 
-        for (let key in elem){
-            let td = document.createElement('td');
-            if (counter === 0)
-            {
-                let a = document.createElement('a')
-                a.setAttribute('src', '#')
-                a.setAttribute('class', 'category')
-                a.innerHTML = elem[key]
-                td.appendChild(a)
-            }else {
-                td.innerHTML = elem[key]
-            }
-            counter++
-            tr.appendChild(td);
-        }
-        document.querySelector('.tab').appendChild(tr)
+        let counter = 0
+
+        let tr = document.createElement('tr');
+            let trHead = document.createElement('tr')
+            category.forEach(cat => {
+                let thHead = document.createElement('th')
+                if (head % content.length === 0) {
+                    thHead.innerHTML = elem[cat]
+                    trHead.appendChild(thHead)
+                }
+                if (head != 0){
+                    let td = document.createElement('td');
+                    if (counter === 0) {
+                        let a = document.createElement('a')
+                        a.setAttribute('src', '#')
+                        a.setAttribute('class', 'category')
+                        a.innerHTML = elem[cat]
+                        td.appendChild(a)
+                    } else {
+                        td.innerHTML = elem[cat]
+                    }
+                    counter++
+                    tr.appendChild(td);
+                    document.querySelector('.tab').appendChild(tr)
+                }
+            })
+            document.querySelector('.tab').appendChild(trHead)
+        head++
+
     })
+    // let trHead = document.createElement('tr')
+    // heads.forEach((elem) => {
+    //     let thHead = document.createElement('th')
+    //     thHead.innerHTML = elem
+    //     trHead.appendChild(thHead)
+    // })
+    //
+    // document.querySelector('.tab').appendChild(trHead)
+    //
+    // content.forEach((elem) => {
+    //     let counter = 0
+    //     let tr = document.createElement('tr');
+    //
+    //     for (let key in elem){
+    //         let td = document.createElement('td');
+    //         if (counter === 0)
+    //         {
+    //             let a = document.createElement('a')
+    //             a.setAttribute('src', '#')
+    //             a.setAttribute('class', 'category')
+    //             a.innerHTML = elem[key]
+    //             td.appendChild(a)
+    //         }else {
+    //             td.innerHTML = elem[key]
+    //         }
+    //         counter++
+    //         tr.appendChild(td);
+    //     }
+    //     document.querySelector('.tab').appendChild(tr)
+    // })
 }
 
-dynTable(heads, content)
+
+dynTable(content, ['category', 'rating', 'price'])
 
