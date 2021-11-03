@@ -80,8 +80,11 @@ aside{
 
 }
 
+button, label{
+    display: grid;
+}
 button{
-    margin: 5px;
+    margin: 15px;
 }
 
 .afooter{

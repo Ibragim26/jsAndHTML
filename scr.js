@@ -83,7 +83,45 @@ function fillTable(content, header) {
     })
 }
 
+function createForm(header) {
+    document.querySelector('.insert')
+        .innerHTML = `<form class="insertion"></form>`;
+    header.forEach((head) => {
+        const label = document.createElement('label')
+        label.setAttribute('for', `${head.field}`);
+        label.innerHTML = `Введите вашу ${head.name}`;
+        const input = document.createElement('input');
+        input.setAttribute('id',`${head.field}`);
+        document.querySelector('.insert').appendChild(label);
+        document.querySelector('.insert').appendChild(input);
+
+    })
+    const button = document.createElement('button');
+    button.setAttribute('type', 'button');
+    button.setAttribute('id', 'but');
+    button.innerHTML = 'Отправить';
+
+    button.addEventListener('click', {handleEvent: addNew, header})
+
+    document.querySelector('.insert').appendChild(button);
+}
+
+
+
+function addNew(event) {
+
+
+    let temp = []
+    this.header.forEach((head) =>{
+        temp.push(document.querySelector(`#${head.field}`).innerHTML)
+        //как сделать так чтобы данные подхватывались
+    })
+
+
+
+
+}
 
 createTable(header);
 fillTable(content, header);
-
+createForm(header)
