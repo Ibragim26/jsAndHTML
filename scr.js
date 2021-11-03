@@ -59,8 +59,9 @@ const content = [
     },
     {
         category: 'Игровые компьютеры',
+        rating: '4.6',
         price: '50т.р. - 80т.р',
-        rating: '4.6'
+
     },
     {
         category: 'Офисные компьютеры',
@@ -121,40 +122,22 @@ const content = [
 function dynTable(content, category) {
     document.querySelector('.dynTa')
         .innerHTML = `<table class="tab" border="2"></table>`
-
-
-
-    const temp = content[0]
     content.forEach((elem) => {
-        let counter = 0
         let tr = document.createElement('tr');
         let trHead = document.createElement('tr')
         category.forEach(cat => {
-            if (elem === temp ){
+            if (elem === content[0] ){
                 let thHead = document.createElement('th')
                 thHead.innerHTML = elem[cat]
                 trHead.appendChild(thHead)
             }else {
                 let td = document.createElement('td');
-                if (counter === 0) {
-                    let a = document.createElement('a')
-                    a.setAttribute('src', '#')
-                    a.setAttribute('class', 'category')
-                    a.innerHTML = elem[cat]
-                    td.appendChild(a)
-                } else {
-                    td.innerHTML = elem[cat]
-                }
-                counter++
+                td.innerHTML = elem[cat]
                 tr.appendChild(td);
                 document.querySelector('.tab').appendChild(tr)
             }
             document.querySelector('.tab').appendChild(trHead)
         })
-
-
-
-
     })
     // let trHead = document.createElement('tr')
     // heads.forEach((elem) => {
@@ -189,5 +172,5 @@ function dynTable(content, category) {
 }
 
 
-dynTable(content, ['category'])
+dynTable(content, ['category', 'rating', 'price'])
 
