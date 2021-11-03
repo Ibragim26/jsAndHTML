@@ -59,7 +59,7 @@ const header = [
 ];
 
 function createTable(header) {
-    document.querySelector('.dynTa');
+    document.querySelector('.dynTa')
         .innerHTML = `<table class="tab" border="2"></table>`
     let tr = document.createElement('tr');
     header.forEach( head => {
