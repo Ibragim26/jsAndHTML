@@ -56,39 +56,34 @@ const header = [
         name: 'Оценка',
         field: 'rating'
     }
-]
+];
 
 function createTable(header) {
-    document.querySelector('.dynTa')
+    document.querySelector('.dynTa');
         .innerHTML = `<table class="tab" border="2"></table>`
-    let tr = document.createElement('tr')
+    let tr = document.createElement('tr');
     header.forEach( head => {
         let th = document.createElement('th')
         th.innerHTML = head.name
         tr.appendChild(th)
-    })
+    });
 
-    
-    document.querySelector('.tab').appendChild(tr)
+    document.querySelector('.tab').appendChild(tr);
 }
 
 function fillTable(content, header) {
     content.forEach((elem) => {
-        let tr = document.createElement('tr')
-
-
-
+        let tr = document.createElement('tr');
         header.forEach(head => {
-            let td = document.createElement('td')
-            td.innerHTML = elem[head.field]
-            tr.appendChild(td)
-            document.querySelector('.tab').appendChild(tr)
+            let td = document.createElement('td');
+            td.innerHTML = elem[head.field];
+            tr.appendChild(td);
+            document.querySelector('.tab').appendChild(tr);
         })
     })
-
 }
 
 
-createTable(header)
-fillTable(content, header)
+createTable(header);
+fillTable(content, header);
 
