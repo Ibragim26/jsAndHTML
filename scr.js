@@ -91,9 +91,9 @@ function addNew() {
     temp['price'] =  document.getElementsByTagName('input')[1].value;
     temp['rating'] =  document.getElementsByTagName('input')[2].value;
 
-    if (document.getElementById('field_1').value === '' ||
-        document.getElementById('field_2').value === '' ||
-        document.getElementById('field_3').value === '' )
+    if (document.getElementById('input')[0].value === '' ||
+        document.getElementById('input')[1].value === '' ||
+        document.getElementById('input')[2].value === '' )
     {
         alert('your input is empty');
         return
