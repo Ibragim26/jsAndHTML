@@ -43,7 +43,7 @@ const content = [
     },
 ]
 
-const header = [
+const headers = [
     {
         name: 'Наименование',
         field: 'category'
@@ -58,7 +58,7 @@ const header = [
     }
 ];
 
-function createTable(header) {
+function createTable(header = headers) {
     document.querySelector('.dynTa')
         .innerHTML = `<table class="tab" border="2"></table>`
     let tr = document.createElement('tr');
@@ -72,7 +72,7 @@ function createTable(header) {
 }
 
 
-function fillTable(content, header) {
+function fillTable(content = content, header = headers) {
     content.forEach((elem) => {
         let tr = document.createElement('tr');
         header.forEach(head => {
@@ -83,13 +83,13 @@ function fillTable(content, header) {
         document.querySelector('.tab').appendChild(tr);
     })
 }
-function addNew(header) {
+function addNew() {
 
    let temp = {};
 
-    temp['category'] =  document.getElementById('field_1').value;
-    temp['price'] =  document.getElementById('field_2').value;
-    temp['rating'] =  document.getElementById('field_3').value;
+    temp['category'] =  document.getElementsByTagName('input')[0].value;
+    temp['price'] =  document.getElementsByTagName('input')[1].value;
+    temp['rating'] =  document.getElementsByTagName('input')[2].value;
 
     if (document.getElementById('field_1').value === '' ||
         document.getElementById('field_2').value === '' ||
@@ -104,14 +104,13 @@ function addNew(header) {
 
     content.push(temp);
 
-    createTable(header);
-    fillTable(content, header);
-    console.log(temp)
+    createTable();
+    fillTable(content);
 }
 
 
 
-createTable(header);
-fillTable(content, header);
+createTable(headers);
+fillTable(content, headers);
 
-document.getElementById('send').addEventListener('click', ()=>{addNew(header)})
+document.getElementById('send').addEventListener('click', ()=>{addNew(headers)})
