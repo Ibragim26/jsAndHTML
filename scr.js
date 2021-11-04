@@ -89,23 +89,29 @@ function addNew(header) {
 
     temp['category'] =  document.getElementById('field_1').value;
     temp['price'] =  document.getElementById('field_2').value;
-    temp['rating'] =  document.getElementById('field_2').value;
+    temp['rating'] =  document.getElementById('field_3').value;
 
     if (document.getElementById('field_1').value === '' ||
         document.getElementById('field_2').value === '' ||
-        document.getElementById('field_3').value === '' ){
+        document.getElementById('field_3').value === '' )
+    {
         alert('your input is empty');
         return
     }
 
-    content.push(temp);
 
     document.querySelector('.tab').remove();
+
+    content.push(temp);
+
     createTable(header);
     fillTable(content, header);
+    console.log(temp)
 }
 
-document.getElementById('send').addEventListener('click', ()=>{addNew(header)})
+
 
 createTable(header);
 fillTable(content, header);
+
+document.getElementById('send').addEventListener('click', ()=>{addNew(header)})
