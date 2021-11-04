@@ -85,21 +85,24 @@ function fillTable(content = content, header = headers) {
 }
 function addNew() {
 
-   let temp = {};
 
-   let i = 0;
-   let x = 0;
+    let temp = {};
 
-   let formFields = document.forms[0].elements;
+    let i = 0;
+    let x = 0;
 
-   console.log(formFields)
-   for (let key in headers){
-       temp[`${headers[key].field}`] = formFields.namedItem(`${headers[key].field}`).value;//document.getElementsByTagName('input')[x].value;
-       if (document.getElementsByTagName('input')[x++].value === '')
-           i++
-   }
+    let formFields = document.forms[0].elements;
 
-    if (i != 0){
+
+    let category = formFields.namedItem('category').value;
+    let price = formFields.namedItem('price').value;
+    let rating = formFields.namedItem('rating').value;
+
+    temp['category'] = category
+    temp['price'] = price
+    temp['rating'] = rating
+
+    if (category == '' || price == '' || rating == ''){
         alert('your input is empty');
         return
     }
