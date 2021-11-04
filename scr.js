@@ -88,9 +88,6 @@ function addNew() {
 
     let temp = {};
 
-    let i = 0;
-    let x = 0;
-
     let formFields = document.forms[0].elements;
 
 
@@ -98,9 +95,9 @@ function addNew() {
     let price = formFields.namedItem('price').value;
     let rating = formFields.namedItem('rating').value;
 
-    temp['category'] = category
-    temp['price'] = price
-    temp['rating'] = rating
+    temp['category'] = category;
+    temp['price'] = price;
+    temp['rating'] = rating;
 
     if (category == '' || price == '' || rating == ''){
         alert('your input is empty');
