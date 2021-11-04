@@ -25,14 +25,16 @@
     <div class="main">
         <div class="dynTa"></div>
         <aside>
-            <form>
-                <label for="field_1">Введите вашу категорию</label>
-                <input type="text" id="field_1">
-                <label for="field_2">Введите ваш ценовой диапазон</label>
-                <input type="text" id="field_2">
-                <label for="field_3">Введите ваш рейтнг</label>
-                <input type="text" id="field_3">
-                <button type="button" id="send">Отправить</button>
+            <form id="form">
+                <fieldset name="categoryFields">
+                    <label for="field_1">Введите вашу категорию</label>
+                    <input type="text" id="field_1" name="category">
+                    <label for="field_2">Введите ваш ценовой диапазон</label>
+                    <input type="text" id="field_2" name="price">
+                    <label for="field_3">Введите ваш рейтнг</label>
+                    <input type="text" id="field_3" name="rating">
+                    <button type="button" id="send">Отправить</button>
+                </fieldset>
             </form>
         </aside>
     </div>

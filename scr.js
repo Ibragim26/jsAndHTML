@@ -90,8 +90,11 @@ function addNew() {
    let i = 0;
    let x = 0;
 
+   let formFields = document.forms[0].elements;
+
+   console.log(formFields)
    for (let key in headers){
-       temp[`${headers[key].field}`] =  document.getElementsByTagName('input')[x].value;
+       temp[`${headers[key].field}`] = formFields.namedItem(`${headers[key].field}`).value;//document.getElementsByTagName('input')[x].value;
        if (document.getElementsByTagName('input')[x++].value === '')
            i++
    }
