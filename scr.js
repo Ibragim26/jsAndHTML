@@ -71,6 +71,7 @@ function createTable(header) {
     document.querySelector('.tab').appendChild(tr);
 }
 
+
 function fillTable(content, header) {
     content.forEach((elem) => {
         let tr = document.createElement('tr');
@@ -82,58 +83,29 @@ function fillTable(content, header) {
         document.querySelector('.tab').appendChild(tr);
     })
 }
-
-function createForm(header) {
-    document.querySelector('.insert')
-        .innerHTML = `<form class="insertion"></form>`;
-    header.forEach((head) => {
-        const label = document.createElement('label')
-        label.setAttribute('for', `${head.field}`);
-        label.innerHTML = `Введите вашу ${head.name}`;
-        const input = document.createElement('input');
-        input.setAttribute('id',`${head.field}`);
-        document.querySelector('.insert').appendChild(label);
-        document.querySelector('.insert').appendChild(input);
-
-    })
-    const button = document.createElement('button');
-    button.setAttribute('type', 'button');
-    button.setAttribute('id', 'but');
-    button.innerHTML = 'Отправить';
-
-    button.addEventListener('click', ()=>{addNew(header)})
-
-
-    document.querySelector('.insert').appendChild(button);
-}
-
 function addNew(header) {
 
-    let tmpForHeader = header;
-    let counter = 0;
+   let temp = {};
 
-    let temp = {};
-    header.forEach((head) => {
-        if (document.getElementById(`${head.field}`).value === '')
-            counter++
-        temp[`${head.field}`] = document.getElementById(`${head.field}`).value;
-        document.getElementById(`${head.field}`).value = '';
-    })
-    if (counter === header.length){
-        alert('your input is empty')
+    temp['category'] =  document.getElementById('field_1').value;
+    temp['price'] =  document.getElementById('field_2').value;
+    temp['rating'] =  document.getElementById('field_2').value;
+
+    if (document.getElementById('field_1').value === '' ||
+        document.getElementById('field_2').value === '' ||
+        document.getElementById('field_3').value === '' ){
+        alert('your input is empty');
         return
     }
-
 
     content.push(temp);
 
     document.querySelector('.tab').remove();
-
-
-
-    createTable(tmpForHeader);
-    fillTable(content, tmpForHeader);
+    createTable(header);
+    fillTable(content, header);
 }
+
+document.getElementById('send').addEventListener('click', ()=>{addNew(header)})
+
 createTable(header);
 fillTable(content, header);
-createForm(header)
