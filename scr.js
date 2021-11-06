@@ -114,10 +114,7 @@ tab.addEventListener('click', event => {
     if (!FLAG_ON_DELETE)
     if (event.target.parentElement.className === 'forAnyChange') {
 
-       console.log(event.id)
-
         let nav = event.target.parentElement
-
         let formFields = document.forms[0].elements;
 
         formFields.category.labels[0].innerText = 'Поменяйте категорию';
@@ -130,12 +127,20 @@ tab.addEventListener('click', event => {
         formFields.rating.value = contents[nav.id].rating;
 
         document.forms[0].addEventListener('input', (event) => {
-            console.log(event.id);
-            contents[nav.id].category = formFields.category.value;
-            contents[nav.id].rating = formFields.rating.value;
-            contents[nav.id].price = formFields.price.value;
-            createTable();
-            fillTable();
+            console.log(event.target);
+            if (event.data !== '_'){
+                contents[nav.id].category = formFields.category.value;
+                contents[nav.id].rating = formFields.rating.value;
+                contents[nav.id].price = formFields.price.value;
+                createTable();
+                fillTable();
+            }
+            else {
+                console.log(4);
+                return;
+                console.log(1);
+
+            }
         })
     }
 });
@@ -146,12 +151,12 @@ document.getElementById('delete').addEventListener('click', ()=> {
     tab.addEventListener('click', event => {
             if (event.target.parentElement.className === 'forAnyChange') {
                 let result = confirm('Удалить выбранную строку ?');
+                FLAG_ON_DELETE = false
                 if (!result) return;
                 contents.splice(this.id, 1);
                 document.querySelector('.tab').remove();
                 createTable();
                 fillTable();
-                FLAG_ON_DELETE = false
             }
         });
     })
