@@ -1,5 +1,8 @@
 
-const content = [
+let FLAG_ON_DELETE = false;
+let FLAG_ON_EDIT = false
+
+const contents = [
     {
         category: 'Игровые компьютеры',
         rating: '4.6',
@@ -71,12 +74,17 @@ function createTable(header = headers) {
     document.querySelector('.tab').appendChild(tr);
 }
 
-
-function fillTable(content = content, header = headers) {
+function fillTable(content = contents, header = headers) {
+    let index = 0;
     content.forEach((elem) => {
+
         let tr = document.createElement('tr');
+        tr.setAttribute('id', `${index++}`)
+        tr.setAttribute('class', 'forAnyChange')
+
         header.forEach(head => {
             let td = document.createElement('td');
+            td.setAttribute('name', `${head.field}`);
             td.innerHTML = elem[head.field];
             tr.appendChild(td);
         })
@@ -84,38 +92,87 @@ function fillTable(content = content, header = headers) {
     })
 }
 function addNew() {
-
-
-    let temp = {};
-
+    let temp;
     let formFields = document.forms[0].elements;
-
-
-    let category = formFields.namedItem('category').value;
-    let price = formFields.namedItem('price').value;
-    let rating = formFields.namedItem('rating').value;
-
-    temp['category'] = category;
-    temp['price'] = price;
-    temp['rating'] = rating;
-
-    if (category == '' || price == '' || rating == ''){
-        alert('your input is empty');
-        return
+    temp = {
+        category: formFields.category.value,
+        price: formFields.price.value,
+        rating: formFields.rating.value
     }
-
-
     document.querySelector('.tab').remove();
-
-    content.push(temp);
-
+    contents.push(temp);
     createTable();
-    fillTable(content);
+    fillTable();
 }
 
 
-
 createTable(headers);
-fillTable(content, headers);
+fillTable(contents, headers);
 
-document.getElementById('send').addEventListener('click', ()=>{addNew(headers)})
+
+let trs = document.getElementsByClassName('forAnyChange')
+
+for (let tr of trs) {
+    tr.addEventListener('click', () => {
+
+        let formFields = document.forms[0].elements;
+        formFields.category.labels[0].innerText = 'Поменяйте категорию';
+        formFields.category.value = contents[tr.id].category;
+
+        formFields.price.labels[0].innerText = 'Поменяйте ценовой диапазон';
+        formFields.price.value = contents[tr.id].price;
+
+        formFields.rating.labels[0].innerText = 'Поменяйте рейтинг';
+        formFields.rating.value = contents[tr.id].rating;
+
+
+
+        formFields.category.oninput = () => {
+            console.log(2)
+            contents[tr.id].category = formFields.category.value;
+            createTable();
+            fillTable();
+        }
+        formFields.rating.oninput = () => {
+            contents[tr.id].rating = formFields.rating.value;
+            createTable();
+            fillTable();
+        }
+        formFields.price.oninput = () => {
+            contents[tr.id].price = formFields.price.value;
+            createTable();
+            fillTable();
+        }
+
+    }
+)}
+
+
+
+
+document.getElementById('delete').addEventListener('click', ()=> {
+    FLAG_ON_DELETE = true;
+
+    if (!FLAG_ON_DELETE) return;
+
+    let trs = document.getElementsByClassName('forAnyChange')
+
+    for (let tr of trs) {
+         tr.addEventListener('dblclick', function () {
+             let result = confirm(`Удалить ${+this.id + 1} строку ?`);
+
+
+
+             if (!result) return;
+
+             FLAG_ON_DELETE = false;
+
+             contents.splice(this.id, 1);
+
+             document.querySelector('.tab').remove();
+             createTable();
+             fillTable();
+        })
+    }
+})
+document.getElementById('send').addEventListener('click', ()=>{addNew()})
