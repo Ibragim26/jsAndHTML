@@ -1,6 +1,6 @@
 
 let FLAG_ON_DELETE = false;
-let FLAG_ON_EDIT = false
+
 
 const contents = [
     {
@@ -105,74 +105,55 @@ function addNew() {
     fillTable();
 }
 
-
 createTable(headers);
 fillTable(contents, headers);
 
 
-let trs = document.getElementsByClassName('forAnyChange')
+let tab = document.getElementsByClassName('tab')[0]
+tab.addEventListener('click', event => {
+    if (!FLAG_ON_DELETE)
+    if (event.target.parentElement.className === 'forAnyChange') {
 
-for (let tr of trs) {
-    tr.addEventListener('click', () => {
+       console.log(event.id)
+
+        let nav = event.target.parentElement
 
         let formFields = document.forms[0].elements;
+
         formFields.category.labels[0].innerText = 'Поменяйте категорию';
-        formFields.category.value = contents[tr.id].category;
+        formFields.category.value = contents[nav.id].category;
 
         formFields.price.labels[0].innerText = 'Поменяйте ценовой диапазон';
-        formFields.price.value = contents[tr.id].price;
+        formFields.price.value = contents[nav.id].price;
 
         formFields.rating.labels[0].innerText = 'Поменяйте рейтинг';
-        formFields.rating.value = contents[tr.id].rating;
+        formFields.rating.value = contents[nav.id].rating;
 
-
-
-        formFields.category.oninput = () => {
-            console.log(2)
-            contents[tr.id].category = formFields.category.value;
+        document.forms[0].addEventListener('input', (event) => {
+            console.log(event.id);
+            contents[nav.id].category = formFields.category.value;
+            contents[nav.id].rating = formFields.rating.value;
+            contents[nav.id].price = formFields.price.value;
             createTable();
             fillTable();
-        }
-        formFields.rating.oninput = () => {
-            contents[tr.id].rating = formFields.rating.value;
-            createTable();
-            fillTable();
-        }
-        formFields.price.oninput = () => {
-            contents[tr.id].price = formFields.price.value;
-            createTable();
-            fillTable();
-        }
-
-    }
-)}
-
-
-
-
-document.getElementById('delete').addEventListener('click', ()=> {
-    FLAG_ON_DELETE = true;
-
-    if (!FLAG_ON_DELETE) return;
-
-    let trs = document.getElementsByClassName('forAnyChange')
-
-    for (let tr of trs) {
-         tr.addEventListener('dblclick', function () {
-             let result = confirm(`Удалить ${+this.id + 1} строку ?`);
-
-
-
-             if (!result) return;
-
-             FLAG_ON_DELETE = false;
-
-             contents.splice(this.id, 1);
-
-             document.querySelector('.tab').remove();
-             createTable();
-             fillTable();
         })
     }
-})
+});
+
+document.getElementById('delete').addEventListener('click', ()=> {
+    FLAG_ON_DELETE = true
+    let tab = document.getElementsByClassName('tab')[0]
+    tab.addEventListener('click', event => {
+            if (event.target.parentElement.className === 'forAnyChange') {
+                let result = confirm('Удалить выбранную строку ?');
+                if (!result) return;
+                contents.splice(this.id, 1);
+                document.querySelector('.tab').remove();
+                createTable();
+                fillTable();
+                FLAG_ON_DELETE = false
+            }
+        });
+    })
 document.getElementById('send').addEventListener('click', ()=>{addNew()})
+
