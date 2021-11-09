@@ -58,6 +58,8 @@ const headers = [
     }
 ];
 
+
+
 function createTable(header = headers) {
     document.querySelector('.dynTa')
         .innerHTML = `<table class="tab" border="2"></table>`;
@@ -97,10 +99,7 @@ function addNew() {
         rating: formFields.rating.value
     };
 
-
     contents.push(temp);
-    // createTable();
-    // fillTable();
 
     let newTr = document.createElement('tr');
     newTr.setAttribute('id', contents.length - 1);
@@ -126,9 +125,21 @@ createTable(headers);
 fillTable(contents, headers);
 
 
+
 let tab = document.getElementsByClassName('tab')[0]
 tab.addEventListener('click', event => {
         if (event.target.parentElement.className === 'forAnyChange') {
+
+
+            tab.childNodes.forEach(e => {
+               if (e.id % 2 === 0){
+                   e.style.background = '#C9E3FE';
+               }else
+                   e.style.background = '#fff';
+            })
+            tab.childNodes[0].style.background = '#fff';
+
+
             let nav = event.target.parentElement;
             let formFields = document.forms[0].elements;
             formFields.category.labels[0].innerText = 'Поменяйте категорию';
@@ -139,7 +150,7 @@ tab.addEventListener('click', event => {
             formFields.price.value = contents[nav.id].price;
             formFields.rating.value = contents[nav.id].rating;
 
-            nav.style.background = '#0ff';
+            event.target.parentElement.style.background = '#0ff'
 
             document.getElementById('edit').style.visibility = 'visible';
             document.getElementById('send').style.visibility = 'hidden';
