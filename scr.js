@@ -128,70 +128,73 @@ fillTable(contents, headers);
 
 let tab = document.getElementsByClassName('tab')[0]
 tab.addEventListener('click', event => {
-        if (event.target.parentElement.className === 'forAnyChange') {
+    if (event.target.parentElement.className === 'forAnyChange') {
+        tab.childNodes.forEach(e => {
+            if (e.id % 2 === 0) {
+                e.style.background = '#C9E3FE';
+            } else
+                e.style.background = '#fff';
+        })
+        tab.childNodes[0].style.background = '#fff';
+        console.log(1)
+
+        let nav = event.target.parentElement;
+        let formFields = document.forms[0].elements;
+        formFields.category.labels[0].innerText = 'Поменяйте категорию';
+        formFields.price.labels[0].innerText = 'Поменяйте ценовой диапазон';
+        formFields.rating.labels[0].innerText = 'Поменяйте рейтинг';
+
+        formFields.category.value = contents[nav.id].category;
+        formFields.price.value = contents[nav.id].price;
+        formFields.rating.value = contents[nav.id].rating;
+
+        event.target.parentElement.style.background = '#0ff'
+
+        document.getElementById('edit').style.visibility = 'visible';
+        document.getElementById('send').style.visibility = 'hidden';
+
+        document.getElementById('edit').addEventListener('click', () => {
+            contents[nav.id].category = formFields.category.value;
+            contents[nav.id].price = formFields.price.value;
+            contents[nav.id].rating = formFields.rating.value;
+
+            nav.childNodes[0].innerText = formFields.category.value;
+            nav.childNodes[1].innerText = formFields.price.value;
+            nav.childNodes[2].innerText = formFields.rating.value;
+
+            formFields.category.labels[0].innerText = 'Введите категорию';
+            formFields.price.labels[0].innerText = 'Введите ценовой диапазон';
+            formFields.rating.labels[0].innerText = 'Введите рейтинг';
+
+            document.getElementById('send').style.visibility = 'visible';
+            document.getElementById('edit').style.visibility = 'hidden';
+
+            nav.style.background = '#fff'
+
+            formFields.category.value = '';
+            formFields.price.value = '';
+            formFields.rating.value = '';
+
+            console.log(2)
+
+        }, {capture:true, once: true})
+
+        document.getElementById('delete').addEventListener('click', () => {
+            if (event.target.parentElement.className === 'forAnyChange') {
+                let color = event.target.parentElement.style.background;
+                event.target.parentElement.style.background = '#0ff';
+                let result = confirm('Удалить выбранную строку ?');
+                if (!result) {
+                    event.target.parentElement.style.background = color;
+                    return;
+                }
+                contents.splice(event.target.parentElement.id, 1);
+                event.target.parentElement.remove();
+
+            }
+        }, {capture: true, once: true});
+    }
+}, {capture: true})
 
 
-            tab.childNodes.forEach(e => {
-               if (e.id % 2 === 0){
-                   e.style.background = '#C9E3FE';
-               }else
-                   e.style.background = '#fff';
-            })
-            tab.childNodes[0].style.background = '#fff';
-
-
-            let nav = event.target.parentElement;
-            let formFields = document.forms[0].elements;
-            formFields.category.labels[0].innerText = 'Поменяйте категорию';
-            formFields.price.labels[0].innerText = 'Поменяйте ценовой диапазон';
-            formFields.rating.labels[0].innerText = 'Поменяйте рейтинг';
-
-            formFields.category.value = contents[nav.id].category;
-            formFields.price.value = contents[nav.id].price;
-            formFields.rating.value = contents[nav.id].rating;
-
-            event.target.parentElement.style.background = '#0ff'
-
-            document.getElementById('edit').style.visibility = 'visible';
-            document.getElementById('send').style.visibility = 'hidden';
-
-            document.getElementById('edit').addEventListener('click', () => {
-
-                contents[nav.id].category = formFields.category.value;
-                contents[nav.id].price = formFields.price.value;
-                contents[nav.id].rating = formFields.rating.value;
-
-                nav.childNodes[0].innerText = formFields.category.value;
-                nav.childNodes[1].innerText = formFields.price.value;
-                nav.childNodes[2].innerText = formFields.rating.value;
-
-                formFields.category.labels[0].innerText = 'Введите категорию';
-                formFields.price.labels[0].innerText = 'Введите ценовой диапазон';
-                formFields.rating.labels[0].innerText = 'Введите рейтинг';
-
-                document.getElementById('send').style.visibility = 'visible';
-                document.getElementById('edit').style.visibility = 'hidden';
-
-                nav.style.background = '#fff'
-
-                formFields.category.value = '';
-                formFields.price.value = '';
-                formFields.rating.value = '';
-            }, {once: true})
-        }
-});
-
-document.getElementById('delete').addEventListener('click', ()=> {
-    let tab = document.getElementsByClassName('tab')[0];
-    tab.addEventListener('click', event => {
-        if (event.target.parentElement.className === 'forAnyChange') {
-            event.target.parentElement.style.background = '#0ff';
-            let result = confirm('Удалить выбранную строку ?');
-            if (!result) return;
-            event.target.parentElement.remove();
-            contents.splice(event.target.parentElement.id, 1);
-
-        }
-    }, {once: true});
-})
 document.getElementById('send').addEventListener('click', ()=>{addNew()})
