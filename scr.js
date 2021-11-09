@@ -41,7 +41,7 @@ const contents = [
         price: '10т.р. - 50т.р',
         rating: '4.1'
     },
-]
+];
 
 const headers = [
     {
@@ -60,12 +60,12 @@ const headers = [
 
 function createTable(header = headers) {
     document.querySelector('.dynTa')
-        .innerHTML = `<table class="tab" border="2"></table>`
+        .innerHTML = `<table class="tab" border="2"></table>`;
     let tr = document.createElement('tr');
     header.forEach( head => {
-        let th = document.createElement('th')
-        th.innerHTML = head.name
-        tr.appendChild(th)
+        let th = document.createElement('th');
+        th.innerHTML = head.name;
+        tr.appendChild(th);
     });
 
     document.querySelector('.tab').appendChild(tr);
@@ -76,8 +76,8 @@ function fillTable(content = contents, header = headers) {
     content.forEach((elem) => {
 
         let tr = document.createElement('tr');
-        tr.setAttribute('id', `${index++}`)
-        tr.setAttribute('class', 'forAnyChange')
+        tr.setAttribute('id', `${index++}`);
+        tr.setAttribute('class', 'forAnyChange');
 
         header.forEach(head => {
             let td = document.createElement('td');
@@ -95,31 +95,31 @@ function addNew() {
         category: formFields.category.value,
         price: formFields.price.value,
         rating: formFields.rating.value
-    }
-    // document.querySelector('.tab').innerHTML = ''
+    };
+
 
     contents.push(temp);
     // createTable();
     // fillTable();
 
-    let newTr = document.createElement('tr')
-    newTr.setAttribute('id', contents.length - 1)
-    newTr.setAttribute('class', 'forAnyChange')
+    let newTr = document.createElement('tr');
+    newTr.setAttribute('id', contents.length - 1);
+    newTr.setAttribute('class', 'forAnyChange');
 
-    let tr1 = document.createElement('td')
-    tr1.setAttribute('name', 'category')
-    tr1.innerHTML = temp.category
-    newTr.appendChild(tr1)
-    let tr2 = document.createElement('td')
-    tr2.innerHTML = temp.price
-    tr2.setAttribute('name', 'price')
-    newTr.appendChild(tr2)
-    let tr3 = document.createElement('td')
-    tr3.innerHTML = temp.rating
-    tr3.setAttribute('name', 'rating')
-    newTr.appendChild(tr3)
+    let tr1 = document.createElement('td');
+    tr1.setAttribute('name', 'category');
+    tr1.innerHTML = temp.category;
+    newTr.appendChild(tr1);
+    let tr2 = document.createElement('td');
+    tr2.innerHTML = temp.price;
+    tr2.setAttribute('name', 'price');
+    newTr.appendChild(tr2);
+    let tr3 = document.createElement('td');
+    tr3.innerHTML = temp.rating;
+    tr3.setAttribute('name', 'rating');
+    newTr.appendChild(tr3);
 
-    tab.appendChild(newTr)
+    tab.appendChild(newTr);
 }
 
 createTable(headers);
@@ -129,7 +129,7 @@ fillTable(contents, headers);
 let tab = document.getElementsByClassName('tab')[0]
 tab.addEventListener('click', event => {
         if (event.target.parentElement.className === 'forAnyChange') {
-            let nav = event.target.parentElement
+            let nav = event.target.parentElement;
             let formFields = document.forms[0].elements;
             formFields.category.labels[0].innerText = 'Поменяйте категорию';
             formFields.price.labels[0].innerText = 'Поменяйте ценовой диапазон';
@@ -139,10 +139,10 @@ tab.addEventListener('click', event => {
             formFields.price.value = contents[nav.id].price;
             formFields.rating.value = contents[nav.id].rating;
 
-            nav.style.background = '#0ff'
+            nav.style.background = '#0ff';
 
-            document.getElementById('edit').style.visibility = 'visible'
-            document.getElementById('send').style.visibility = 'hidden'
+            document.getElementById('edit').style.visibility = 'visible';
+            document.getElementById('send').style.visibility = 'hidden';
 
             document.getElementById('edit').addEventListener('click', () => {
 
@@ -159,7 +159,7 @@ tab.addEventListener('click', event => {
                 formFields.rating.labels[0].innerText = 'Введите рейтинг';
 
                 document.getElementById('send').style.visibility = 'visible';
-                document.getElementById('edit').style.visibility = 'hidden'
+                document.getElementById('edit').style.visibility = 'hidden';
 
                 nav.style.background = '#fff'
 
@@ -171,12 +171,13 @@ tab.addEventListener('click', event => {
 });
 
 document.getElementById('delete').addEventListener('click', ()=> {
-    let tab = document.getElementsByClassName('tab')[0]
+    let tab = document.getElementsByClassName('tab')[0];
     tab.addEventListener('click', event => {
         if (event.target.parentElement.className === 'forAnyChange') {
+            event.target.parentElement.style.background = '#0ff';
             let result = confirm('Удалить выбранную строку ?');
             if (!result) return;
-            event.target.parentElement.remove()
+            event.target.parentElement.remove();
             contents.splice(event.target.parentElement.id, 1);
 
         }
