@@ -1,5 +1,3 @@
-let FLAG_ON_DELETE = false;
-
 
 const contents = [
     {
@@ -130,7 +128,6 @@ fillTable(contents, headers);
 
 let tab = document.getElementsByClassName('tab')[0]
 tab.addEventListener('click', event => {
-    if (!FLAG_ON_DELETE)
         if (event.target.parentElement.className === 'forAnyChange') {
             let nav = event.target.parentElement
             let formFields = document.forms[0].elements;
@@ -141,6 +138,8 @@ tab.addEventListener('click', event => {
             formFields.category.value = contents[nav.id].category;
             formFields.price.value = contents[nav.id].price;
             formFields.rating.value = contents[nav.id].rating;
+
+            nav.style.background = '#0ff'
 
             document.getElementById('edit').style.visibility = 'visible'
             document.getElementById('send').style.visibility = 'hidden'
@@ -162,6 +161,8 @@ tab.addEventListener('click', event => {
                 document.getElementById('send').style.visibility = 'visible';
                 document.getElementById('edit').style.visibility = 'hidden'
 
+                nav.style.background = '#fff'
+
                 formFields.category.value = '';
                 formFields.price.value = '';
                 formFields.rating.value = '';
@@ -170,22 +171,15 @@ tab.addEventListener('click', event => {
 });
 
 document.getElementById('delete').addEventListener('click', ()=> {
-    FLAG_ON_DELETE = true
-
     let tab = document.getElementsByClassName('tab')[0]
     tab.addEventListener('click', event => {
-        if (!FLAG_ON_DELETE) return
         if (event.target.parentElement.className === 'forAnyChange') {
             let result = confirm('Удалить выбранную строку ?');
-            FLAG_ON_DELETE = false
             if (!result) return;
-            contents.splice(event.target.parentElement.id, 1);
             event.target.parentElement.remove()
-            // document.querySelector('.tab').remove();
-            // createTable();
-            // fillTable();
-            FLAG_ON_DELETE = false
+            contents.splice(event.target.parentElement.id, 1);
+
         }
-    });
+    }, {once: true});
 })
 document.getElementById('send').addEventListener('click', ()=>{addNew()})
