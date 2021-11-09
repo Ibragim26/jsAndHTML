@@ -1,4 +1,3 @@
-
 let FLAG_ON_DELETE = false;
 
 
@@ -99,10 +98,30 @@ function addNew() {
         price: formFields.price.value,
         rating: formFields.rating.value
     }
-    document.querySelector('.tab').remove();
+    // document.querySelector('.tab').innerHTML = ''
+
     contents.push(temp);
-    createTable();
-    fillTable();
+    // createTable();
+    // fillTable();
+
+    let newTr = document.createElement('tr')
+    newTr.setAttribute('id', contents.length - 1)
+    newTr.setAttribute('class', 'forAnyChange')
+
+    let tr1 = document.createElement('td')
+    tr1.setAttribute('name', 'category')
+    tr1.innerHTML = temp.category
+    newTr.appendChild(tr1)
+    let tr2 = document.createElement('td')
+    tr2.innerHTML = temp.price
+    tr2.setAttribute('name', 'price')
+    newTr.appendChild(tr2)
+    let tr3 = document.createElement('td')
+    tr3.innerHTML = temp.rating
+    tr3.setAttribute('name', 'rating')
+    newTr.appendChild(tr3)
+
+    tab.appendChild(newTr)
 }
 
 createTable(headers);
@@ -112,55 +131,63 @@ fillTable(contents, headers);
 let tab = document.getElementsByClassName('tab')[0]
 tab.addEventListener('click', event => {
     if (!FLAG_ON_DELETE)
-    if (event.target.parentElement.className === 'forAnyChange') {
-        let nav = event.target.parentElement
-        let formFields = document.forms[0].elements;
-        formFields.category.labels[0].innerText = 'Поменяйте категорию';
-        formFields.price.labels[0].innerText = 'Поменяйте ценовой диапазон';
-        formFields.rating.labels[0].innerText = 'Поменяйте рейтинг';
+        if (event.target.parentElement.className === 'forAnyChange') {
+            let nav = event.target.parentElement
+            let formFields = document.forms[0].elements;
+            formFields.category.labels[0].innerText = 'Поменяйте категорию';
+            formFields.price.labels[0].innerText = 'Поменяйте ценовой диапазон';
+            formFields.rating.labels[0].innerText = 'Поменяйте рейтинг';
 
-        formFields.category.value = contents[nav.id].category;
-        formFields.price.value = contents[nav.id].price;
-        formFields.rating.value = contents[nav.id].rating;
+            formFields.category.value = contents[nav.id].category;
+            formFields.price.value = contents[nav.id].price;
+            formFields.rating.value = contents[nav.id].rating;
 
-        document.getElementById('edit').style.visibility = 'visible'
-        document.getElementById('send').style.visibility = 'hidden'
+            document.getElementById('edit').style.visibility = 'visible'
+            document.getElementById('send').style.visibility = 'hidden'
 
-        document.getElementById('edit').addEventListener('click', () => {
+            document.getElementById('edit').addEventListener('click', () => {
 
-            contents[nav.id].category = formFields.category.value;
-            contents[nav.id].price = formFields.price.value;
-            contents[nav.id].rating = formFields.rating.value;
-           // contents.pop()
-            createTable();
-            fillTable();
-            formFields.category.labels[0].innerText = 'Введите категорию';
-            formFields.price.labels[0].innerText = 'Введите ценовой диапазон';
-            formFields.rating.labels[0].innerText = 'Введите рейтинг';
-            document.getElementById('send').style.visibility = 'visible';
-            document.getElementById('edit').style.visibility = 'hidden'
+                contents[nav.id].category = formFields.category.value;
+                contents[nav.id].price = formFields.price.value;
+                contents[nav.id].rating = formFields.rating.value;
 
-            formFields.category.value = '';
-            formFields.price.value = '';
-            formFields.rating.value = '';
-        })
-    }
-}, [1, 1, 0]);
+                nav.childNodes[0].innerText = formFields.category.value;
+                nav.childNodes[1].innerText = formFields.price.value;
+                nav.childNodes[2].innerText = formFields.rating.value;
+
+                formFields.category.labels[0].innerText = 'Введите категорию';
+                formFields.price.labels[0].innerText = 'Введите ценовой диапазон';
+                formFields.rating.labels[0].innerText = 'Введите рейтинг';
+
+                document.getElementById('send').style.visibility = 'visible';
+                document.getElementById('edit').style.visibility = 'hidden'
+
+                formFields.category.value = '';
+                formFields.price.value = '';
+                formFields.rating.value = '';
+
+                console.log(contents);
+            }, {once: true})
+        }
+});
 
 document.getElementById('delete').addEventListener('click', ()=> {
-   FLAG_ON_DELETE = true
+    FLAG_ON_DELETE = true
+
     let tab = document.getElementsByClassName('tab')[0]
     tab.addEventListener('click', event => {
-            if (event.target.parentElement.className === 'forAnyChange') {
-                let result = confirm('Удалить выбранную строку ?');
-                FLAG_ON_DELETE = false
-                if (!result) return;
-                contents.splice(event.target.parentElement.id, 1);
-                document.querySelector('.tab').remove();
-                createTable();
-                fillTable();
-            }
-        });
-    })
+        if (!FLAG_ON_DELETE) return
+        if (event.target.parentElement.className === 'forAnyChange') {
+            let result = confirm('Удалить выбранную строку ?');
+            FLAG_ON_DELETE = false
+            if (!result) return;
+            contents.splice(event.target.parentElement.id, 1);
+            event.target.parentElement.remove()
+            // document.querySelector('.tab').remove();
+            // createTable();
+            // fillTable();
+            FLAG_ON_DELETE = false
+        }
+    });
+})
 document.getElementById('send').addEventListener('click', ()=>{addNew()})
-
