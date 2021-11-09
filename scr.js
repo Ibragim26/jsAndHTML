@@ -129,6 +129,7 @@ let FLAG = false;
 let tab = document.getElementsByClassName('tab')[0]
 tab.addEventListener('click', event => {
     if (event.target.parentElement.className === 'forAnyChange') {
+
         tab.childNodes.forEach(e => {
             if (e.id % 2 === 0) {
                 e.style.background = '#C9E3FE';
@@ -139,11 +140,15 @@ tab.addEventListener('click', event => {
 
         FLAG = true
 
+
         let nav = event.target.parentElement;
         let formFields = document.forms[0].elements;
+
         formFields.category.labels[0].innerText = 'Поменяйте категорию';
         formFields.price.labels[0].innerText = 'Поменяйте ценовой диапазон';
         formFields.rating.labels[0].innerText = 'Поменяйте рейтинг';
+
+
 
         formFields.category.value = contents[nav.id].category;
         formFields.price.value = contents[nav.id].price;
@@ -156,6 +161,7 @@ tab.addEventListener('click', event => {
 
         document.getElementById('edit').addEventListener('click', () => {
             if (!FLAG) return;
+
             contents[nav.id].category = formFields.category.value;
             contents[nav.id].price = formFields.price.value;
             contents[nav.id].rating = formFields.rating.value;
@@ -195,6 +201,14 @@ tab.addEventListener('click', event => {
                 formFields.price.value = '';
                 formFields.rating.value = '';
 
+                let id =  +event.target.parentElement.id;
+
+                nav.parentElement.childNodes.forEach(node => {
+                    if (+node.id > id){
+                        node.id--;
+                        console.log(node.id);
+                    }
+                })
                 event.target.parentElement.remove();
                 FLAG = false;
             }
