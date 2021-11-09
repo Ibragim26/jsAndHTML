@@ -165,8 +165,6 @@ tab.addEventListener('click', event => {
                 formFields.category.value = '';
                 formFields.price.value = '';
                 formFields.rating.value = '';
-
-                console.log(contents);
             }, {once: true})
         }
 });
