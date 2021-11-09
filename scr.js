@@ -136,10 +136,8 @@ tab.addEventListener('click', event => {
                 e.style.background = '#fff';
         })
         tab.childNodes[0].style.background = '#fff';
-        console.log(1)
 
         FLAG = true
-
 
         let nav = event.target.parentElement;
         let formFields = document.forms[0].elements;
@@ -179,7 +177,6 @@ tab.addEventListener('click', event => {
             formFields.price.value = '';
             formFields.rating.value = '';
 
-            console.log(2)
             FLAG = false;
         }, {once: true})
 
@@ -194,8 +191,11 @@ tab.addEventListener('click', event => {
                     return;
                 }
                 contents.splice(event.target.parentElement.id, 1);
+                formFields.category.value = '';
+                formFields.price.value = '';
+                formFields.rating.value = '';
+
                 event.target.parentElement.remove();
-                console.log(3)
                 FLAG = false;
             }
         }, {once: true});
