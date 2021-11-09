@@ -113,47 +113,49 @@ let tab = document.getElementsByClassName('tab')[0]
 tab.addEventListener('click', event => {
     if (!FLAG_ON_DELETE)
     if (event.target.parentElement.className === 'forAnyChange') {
-
         let nav = event.target.parentElement
         let formFields = document.forms[0].elements;
-
         formFields.category.labels[0].innerText = 'Поменяйте категорию';
-        formFields.category.value = contents[nav.id].category;
-
         formFields.price.labels[0].innerText = 'Поменяйте ценовой диапазон';
-        formFields.price.value = contents[nav.id].price;
-
         formFields.rating.labels[0].innerText = 'Поменяйте рейтинг';
+
+        formFields.category.value = contents[nav.id].category;
+        formFields.price.value = contents[nav.id].price;
         formFields.rating.value = contents[nav.id].rating;
 
-        document.forms[0].addEventListener('input', (event) => {
-            console.log(event.target);
-            if (event.data !== '_'){
-                contents[nav.id].category = formFields.category.value;
-                contents[nav.id].rating = formFields.rating.value;
-                contents[nav.id].price = formFields.price.value;
-                createTable();
-                fillTable();
-            }
-            else {
-                console.log(4);
-                return;
-                console.log(1);
+        document.getElementById('edit').style.visibility = 'visible'
+        document.getElementById('send').style.visibility = 'hidden'
 
-            }
+        document.getElementById('edit').addEventListener('click', () => {
+
+            contents[nav.id].category = formFields.category.value;
+            contents[nav.id].price = formFields.price.value;
+            contents[nav.id].rating = formFields.rating.value;
+           // contents.pop()
+            createTable();
+            fillTable();
+            formFields.category.labels[0].innerText = 'Введите категорию';
+            formFields.price.labels[0].innerText = 'Введите ценовой диапазон';
+            formFields.rating.labels[0].innerText = 'Введите рейтинг';
+            document.getElementById('send').style.visibility = 'visible';
+            document.getElementById('edit').style.visibility = 'hidden'
+
+            formFields.category.value = '';
+            formFields.price.value = '';
+            formFields.rating.value = '';
         })
     }
-});
+}, [1, 1, 0]);
 
 document.getElementById('delete').addEventListener('click', ()=> {
-    FLAG_ON_DELETE = true
+   FLAG_ON_DELETE = true
     let tab = document.getElementsByClassName('tab')[0]
     tab.addEventListener('click', event => {
             if (event.target.parentElement.className === 'forAnyChange') {
                 let result = confirm('Удалить выбранную строку ?');
                 FLAG_ON_DELETE = false
                 if (!result) return;
-                contents.splice(this.id, 1);
+                contents.splice(event.target.parentElement.id, 1);
                 document.querySelector('.tab').remove();
                 createTable();
                 fillTable();
