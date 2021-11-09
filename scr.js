@@ -124,7 +124,7 @@ function addNew() {
 createTable(headers);
 fillTable(contents, headers);
 
-
+let FLAG = false;
 
 let tab = document.getElementsByClassName('tab')[0]
 tab.addEventListener('click', event => {
@@ -137,6 +137,9 @@ tab.addEventListener('click', event => {
         })
         tab.childNodes[0].style.background = '#fff';
         console.log(1)
+
+        FLAG = true
+
 
         let nav = event.target.parentElement;
         let formFields = document.forms[0].elements;
@@ -154,6 +157,7 @@ tab.addEventListener('click', event => {
         document.getElementById('send').style.visibility = 'hidden';
 
         document.getElementById('edit').addEventListener('click', () => {
+            if (!FLAG) return;
             contents[nav.id].category = formFields.category.value;
             contents[nav.id].price = formFields.price.value;
             contents[nav.id].rating = formFields.rating.value;
@@ -176,10 +180,11 @@ tab.addEventListener('click', event => {
             formFields.rating.value = '';
 
             console.log(2)
-
-        }, {capture:true, once: true})
+            FLAG = false;
+        }, {once: true})
 
         document.getElementById('delete').addEventListener('click', () => {
+            if (!FLAG) return;
             if (event.target.parentElement.className === 'forAnyChange') {
                 let color = event.target.parentElement.style.background;
                 event.target.parentElement.style.background = '#0ff';
@@ -190,11 +195,12 @@ tab.addEventListener('click', event => {
                 }
                 contents.splice(event.target.parentElement.id, 1);
                 event.target.parentElement.remove();
-
+                console.log(3)
+                FLAG = false;
             }
-        }, {capture: true, once: true});
+        }, {once: true});
     }
-}, {capture: true})
+})
 
 
 document.getElementById('send').addEventListener('click', ()=>{addNew()})
