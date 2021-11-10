@@ -53,7 +53,8 @@ th{
     font-size: 20px;
 }
 
-tr:nth-child(even) {background: #C9E3FE}
+.forAnyChange:nth-child(even) {background: #C9E3FE}
+
 caption {
     caption-side: top;
     text-align: right;
@@ -140,7 +141,7 @@ nav{
     align-items: center;
 }
 
-.forColor{
+.forAnyChange.forColor{
     background: green;
 }
 

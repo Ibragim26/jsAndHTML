@@ -126,7 +126,13 @@ let tab = document.getElementsByClassName('tab')[0]
 tab.addEventListener('click', event => {
     if (event.target.parentElement.className === 'forAnyChange') {
 
-        event.target.parentElement.className += ' forColor'
+        Array.from(event.target.parentElement.parentElement.childNodes).forEach(e => {
+            if (e.classList.contains('forColor'))
+                e.classList.remove('forColor')
+        })
+
+        event.target.parentElement.classList.add('forColor')
+
         FLAG_DELETE = false
         FLAG_EDIT = false
 
@@ -155,14 +161,17 @@ tab.addEventListener('click', event => {
         document.getElementById('delete').addEventListener('click', () =>{
             if (FLAG_DELETE) return
             deleteFunc();
+
             FLAG_DELETE = true
         }, {once: true})
 
         function deleteFunc() {
+
             let result = confirm('Удалить выбранную строку ?');
             if (!result) {
                 return;
             }
+
             contents.splice(event.target.parentElement.id, 1);
             formFields.category.value = '';
             formFields.price.value = '';
@@ -185,17 +194,12 @@ tab.addEventListener('click', event => {
 
             event.target.parentElement.remove();
 
-            event.target.parentElement.classList.remove('forColor')
-
             FLAG_DELETE = true;
         }
         function editFunc() {
             contents[nav.id].category = formFields.category.value;
             contents[nav.id].price = formFields.price.value;
             contents[nav.id].rating = formFields.rating.value;
-
-
-
 
             nav.childNodes[0].innerText = formFields.category.value;
             nav.childNodes[1].innerText = formFields.price.value;
@@ -212,7 +216,6 @@ tab.addEventListener('click', event => {
             formFields.category.value = '';
             formFields.price.value = '';
             formFields.rating.value = '';
-            event.target.parentElement.classList.remove('forColor')
             FLAG_EDIT = true
         }
     }
