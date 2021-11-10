@@ -125,15 +125,21 @@ fillTable(contents, headers);
 let tab = document.getElementsByClassName('tab')[0]
 
 
+let FLAG = false
 
 tab.addEventListener('click', event => {
     if (event.target.parentElement.className === 'forAnyChange') {
+
+
+        console.log(this)
 
         Array.from(document.getElementsByClassName('forAnyChange')).forEach( e => {
             e.style.background = '#fff'
         })
 
-        let FLAG = true
+        console.log(event.target.parentElement.id)
+
+        FLAG = true
 
         let nav = event.target.parentElement;
         let formFields = document.forms[0].elements;
@@ -178,9 +184,16 @@ tab.addEventListener('click', event => {
             FLAG = false;
         }, {once: true})
 
+
+
         document.getElementById('delete').addEventListener('click', () => {
             if (!FLAG) return;
             if (event.target.parentElement.className === 'forAnyChange') {
+
+                console.log(event.target.parentElement.id)
+
+
+
                 let color = event.target.parentElement.style.background;
                 event.target.parentElement.style.background = '#0ff';
                 let result = confirm('Удалить выбранную строку ?');
@@ -214,6 +227,6 @@ tab.addEventListener('click', event => {
             }
         }, {once: true});
     }
-})
+}, {capture: true})
 
 document.getElementById('send').addEventListener('click', ()=>{addNew()})

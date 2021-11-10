@@ -53,7 +53,8 @@ th{
     font-size: 20px;
 }
 
-tr:nth-child(even) {background: #C9E3FE}
+.forAnyChange:nth-child(even) {background: #C9E3FE}
+
 caption {
     caption-side: top;
     text-align: right;
@@ -139,6 +140,10 @@ nav{
     margin-top: 20px;
     align-items: center;
 }
+
+/*.forAnyChange.forColor{*/
+/*    background: green;*/
+/*}*/
 
 td:hover{
     color: red;
