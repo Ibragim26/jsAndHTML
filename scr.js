@@ -58,8 +58,6 @@ const headers = [
     }
 ];
 
-
-
 function createTable(header = headers) {
     document.querySelector('.dynTa')
         .innerHTML = `<table class="tab" border="2"></table>`;
@@ -69,7 +67,6 @@ function createTable(header = headers) {
         th.innerHTML = head.name;
         tr.appendChild(th);
     });
-
     document.querySelector('.tab').appendChild(tr);
 }
 
@@ -98,7 +95,6 @@ function addNew() {
         price: formFields.price.value,
         rating: formFields.rating.value
     };
-
     contents.push(temp);
 
     let newTr = document.createElement('tr');
@@ -124,12 +120,11 @@ function addNew() {
 createTable(headers);
 fillTable(contents, headers);
 
-let FLAG = false;
+
 
 let tab = document.getElementsByClassName('tab')[0]
 tab.addEventListener('click', event => {
     if (event.target.parentElement.className === 'forAnyChange') {
-
         tab.childNodes.forEach(e => {
             if (e.id % 2 === 0) {
                 e.style.background = '#C9E3FE';
@@ -138,8 +133,7 @@ tab.addEventListener('click', event => {
         })
         tab.childNodes[0].style.background = '#fff';
 
-        FLAG = true
-
+        let FLAG = true
 
         let nav = event.target.parentElement;
         let formFields = document.forms[0].elements;
@@ -147,8 +141,6 @@ tab.addEventListener('click', event => {
         formFields.category.labels[0].innerText = 'Поменяйте категорию';
         formFields.price.labels[0].innerText = 'Поменяйте ценовой диапазон';
         formFields.rating.labels[0].innerText = 'Поменяйте рейтинг';
-
-
 
         formFields.category.value = contents[nav.id].category;
         formFields.price.value = contents[nav.id].price;
@@ -177,7 +169,7 @@ tab.addEventListener('click', event => {
             document.getElementById('send').style.visibility = 'visible';
             document.getElementById('edit').style.visibility = 'hidden';
 
-            nav.style.background = '#fff'
+            nav.style.background = '#fff';
 
             formFields.category.value = '';
             formFields.price.value = '';
@@ -209,12 +201,19 @@ tab.addEventListener('click', event => {
                         console.log(node.id);
                     }
                 })
+
+                formFields.category.labels[0].innerText = 'Введите категорию';
+                formFields.price.labels[0].innerText = 'Введите ценовой диапазон';
+                formFields.rating.labels[0].innerText = 'Введите рейтинг';
+
+                document.getElementById('send').style.visibility = 'visible';
+                document.getElementById('edit').style.visibility = 'hidden';
+
                 event.target.parentElement.remove();
                 FLAG = false;
             }
         }, {once: true});
     }
 })
-
 
 document.getElementById('send').addEventListener('click', ()=>{addNew()})
