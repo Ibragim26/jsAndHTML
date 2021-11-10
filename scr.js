@@ -1,3 +1,4 @@
+
 const contents = [
     {
         category: 'Игровые компьютеры',
@@ -119,16 +120,20 @@ function addNew() {
 createTable(headers);
 fillTable(contents, headers);
 
-let FLAG_DELETE = false
-let FLAG_EDIT = false
+
 
 let tab = document.getElementsByClassName('tab')[0]
 tab.addEventListener('click', event => {
     if (event.target.parentElement.className === 'forAnyChange') {
+        tab.childNodes.forEach(e => {
+            if (e.id % 2 === 0) {
+                e.style.background = '#C9E3FE';
+            } else
+                e.style.background = '#fff';
+        })
+        tab.childNodes[0].style.background = '#fff';
 
-        event.target.parentElement.className += ' forColor'
-        FLAG_DELETE = false
-        FLAG_EDIT = false
+        let FLAG = true
 
         let nav = event.target.parentElement;
         let formFields = document.forms[0].elements;
@@ -141,61 +146,17 @@ tab.addEventListener('click', event => {
         formFields.price.value = contents[nav.id].price;
         formFields.rating.value = contents[nav.id].rating;
 
-
+        event.target.parentElement.style.background = '#0ff'
 
         document.getElementById('edit').style.visibility = 'visible';
         document.getElementById('send').style.visibility = 'hidden';
 
-
         document.getElementById('edit').addEventListener('click', () => {
-            if (FLAG_EDIT) return
-            editFunc();
-            FLAG_EDIT = true
-        }, {once: true})
-        document.getElementById('delete').addEventListener('click', () =>{
-            if (FLAG_DELETE) return
-            deleteFunc();
-            FLAG_DELETE = true
-        }, {once: true})
+            if (!FLAG) return;
 
-        function deleteFunc() {
-            let result = confirm('Удалить выбранную строку ?');
-            if (!result) {
-                return;
-            }
-            contents.splice(event.target.parentElement.id, 1);
-            formFields.category.value = '';
-            formFields.price.value = '';
-            formFields.rating.value = '';
-
-            let id =  +event.target.parentElement.id;
-
-            nav.parentElement.childNodes.forEach(node => {
-                if (+node.id > id){
-                    node.id--;
-                }
-            })
-
-            formFields.category.labels[0].innerText = 'Введите категорию';
-            formFields.price.labels[0].innerText = 'Введите ценовой диапазон';
-            formFields.rating.labels[0].innerText = 'Введите рейтинг';
-
-            document.getElementById('send').style.visibility = 'visible';
-            document.getElementById('edit').style.visibility = 'hidden';
-
-            event.target.parentElement.remove();
-
-            event.target.parentElement.classList.remove('forColor')
-
-           FLAG_DELETE = true;
-        }
-        function editFunc() {
             contents[nav.id].category = formFields.category.value;
             contents[nav.id].price = formFields.price.value;
             contents[nav.id].rating = formFields.rating.value;
-
-            event.target.parentElement.classList.remove('forColor')
-
 
             nav.childNodes[0].innerText = formFields.category.value;
             nav.childNodes[1].innerText = formFields.price.value;
@@ -214,8 +175,44 @@ tab.addEventListener('click', event => {
             formFields.price.value = '';
             formFields.rating.value = '';
 
-            FLAG_EDIT = true
-        }
+            FLAG = false;
+        }, {once: true})
+
+        document.getElementById('delete').addEventListener('click', () => {
+            if (!FLAG) return;
+            if (event.target.parentElement.className === 'forAnyChange') {
+                let color = event.target.parentElement.style.background;
+                event.target.parentElement.style.background = '#0ff';
+                let result = confirm('Удалить выбранную строку ?');
+                if (!result) {
+                    event.target.parentElement.style.background = color;
+                    return;
+                }
+                contents.splice(event.target.parentElement.id, 1);
+                formFields.category.value = '';
+                formFields.price.value = '';
+                formFields.rating.value = '';
+
+                let id =  +event.target.parentElement.id;
+
+                nav.parentElement.childNodes.forEach(node => {
+                    if (+node.id > id){
+                        node.id--;
+                        console.log(node.id);
+                    }
+                })
+
+                formFields.category.labels[0].innerText = 'Введите категорию';
+                formFields.price.labels[0].innerText = 'Введите ценовой диапазон';
+                formFields.rating.labels[0].innerText = 'Введите рейтинг';
+
+                document.getElementById('send').style.visibility = 'visible';
+                document.getElementById('edit').style.visibility = 'hidden';
+
+                event.target.parentElement.remove();
+                FLAG = false;
+            }
+        }, {once: true});
     }
 })
 
