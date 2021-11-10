@@ -123,15 +123,15 @@ fillTable(contents, headers);
 
 
 let tab = document.getElementsByClassName('tab')[0]
+
+
+
 tab.addEventListener('click', event => {
     if (event.target.parentElement.className === 'forAnyChange') {
-        tab.childNodes.forEach(e => {
-            if (e.id % 2 === 0) {
-                e.style.background = '#C9E3FE';
-            } else
-                e.style.background = '#fff';
+
+        Array.from(document.getElementsByClassName('forAnyChange')).forEach( e => {
+            e.style.background = '#fff'
         })
-        tab.childNodes[0].style.background = '#fff';
 
         let FLAG = true
 
@@ -146,7 +146,7 @@ tab.addEventListener('click', event => {
         formFields.price.value = contents[nav.id].price;
         formFields.rating.value = contents[nav.id].rating;
 
-        event.target.parentElement.style.background = '#0ff'
+        event.target.parentElement.style.background = '#090'
 
         document.getElementById('edit').style.visibility = 'visible';
         document.getElementById('send').style.visibility = 'hidden';
