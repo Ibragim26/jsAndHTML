@@ -188,6 +188,7 @@ tab.addEventListener('click', event => {
             event.target.parentElement.classList.remove('forColor')
 
            FLAG_DELETE = true;
+
         }
         function editFunc() {
             contents[nav.id].category = formFields.category.value;
