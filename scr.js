@@ -113,28 +113,29 @@ function addNew() {
     tr3.setAttribute('name', 'rating');
     newTr.appendChild(tr3);
 
+    formFields.category.value = '';
+    formFields.price.value = '';
+    formFields.rating.value = '';
+
     tab.appendChild(newTr);
 }
+
 
 createTable(headers);
 fillTable(contents, headers);
 
-let FLAG_DELETE = false
-let FLAG_EDIT = false
-
 let tab = document.getElementsByClassName('tab')[0]
+
+let id = null;
+
 tab.addEventListener('click', event => {
     if (event.target.parentElement.className === 'forAnyChange') {
 
-        Array.from(event.target.parentElement.parentElement.childNodes).forEach(e => {
+        Array.from(tab.childNodes).forEach(e => {
             if (e.classList.contains('forColor'))
-                e.classList.remove('forColor')
+                e.classList.remove('forColor');
         })
-
         event.target.parentElement.classList.add('forColor')
-
-        FLAG_DELETE = false
-        FLAG_EDIT = false
 
         let nav = event.target.parentElement;
         let formFields = document.forms[0].elements;
@@ -147,78 +148,82 @@ tab.addEventListener('click', event => {
         formFields.price.value = contents[nav.id].price;
         formFields.rating.value = contents[nav.id].rating;
 
-
-
         document.getElementById('edit').style.visibility = 'visible';
         document.getElementById('send').style.visibility = 'hidden';
 
-
-        document.getElementById('edit').addEventListener('click', () => {
-            if (FLAG_EDIT) return
-            editFunc();
-            FLAG_EDIT = true
-        }, {once: true})
-        document.getElementById('delete').addEventListener('click', () =>{
-            if (FLAG_DELETE) return
-            deleteFunc();
-
-            FLAG_DELETE = true
-        }, {once: true})
-
-        function deleteFunc() {
-
-            let result = confirm('Удалить выбранную строку ?');
-            if (!result) {
-                return;
-            }
-
-            contents.splice(event.target.parentElement.id, 1);
-            formFields.category.value = '';
-            formFields.price.value = '';
-            formFields.rating.value = '';
-
-            let id = +event.target.parentElement.id;
-
-            nav.parentElement.childNodes.forEach(node=> {
-                if (+node.id > id){
-                    node.id--;
-                }
-            })
-
-            formFields.category.labels[0].innerText = 'Введите категорию';
-            formFields.price.labels[0].innerText = 'Введите ценовой диапазон';
-            formFields.rating.labels[0].innerText = 'Введите рейтинг';
-
-            document.getElementById('send').style.visibility = 'visible';
-            document.getElementById('edit').style.visibility = 'hidden';
-
-            event.target.parentElement.remove();
-
-            FLAG_DELETE = true;
-        }
-        function editFunc() {
-            contents[nav.id].category = formFields.category.value;
-            contents[nav.id].price = formFields.price.value;
-            contents[nav.id].rating = formFields.rating.value;
-
-            nav.childNodes[0].innerText = formFields.category.value;
-            nav.childNodes[1].innerText = formFields.price.value;
-            nav.childNodes[2].innerText = formFields.rating.value;
-
-            formFields.category.labels[0].innerText = 'Введите категорию';
-            formFields.price.labels[0].innerText = 'Введите ценовой диапазон';
-            formFields.rating.labels[0].innerText = 'Введите рейтинг';
-
-            document.getElementById('send').style.visibility = 'visible';
-            document.getElementById('edit').style.visibility = 'hidden';
+        id = nav.id;
 
 
-            formFields.category.value = '';
-            formFields.price.value = '';
-            formFields.rating.value = '';
-            FLAG_EDIT = true
-        }
     }
+})
+
+document.getElementById('delete').addEventListener('click', () => {
+    if (id == null) {
+        return;
+    }
+    let result = confirm('Удалить выбранную строку ?');
+    if (!result) {
+        Array.from(tab.childNodes).forEach(e => {
+            if (e.classList.contains('forColor'))
+                e.classList.remove('forColor');
+        })
+        return;
+    }
+
+    let nav = document.getElementById(id);
+    let formFields = document.forms[0].elements;
+
+    contents.splice(id, 1);
+    formFields.category.value = '';
+    formFields.price.value = '';
+    formFields.rating.value = '';
+
+    nav.parentElement.childNodes.forEach(node=> {
+        if (+node.id > id){
+            node.id--;
+        }
+    })
+
+    formFields.category.labels[0].innerText = 'Введите категорию';
+    formFields.price.labels[0].innerText = 'Введите ценовой диапазон';
+    formFields.rating.labels[0].innerText = 'Введите рейтинг';
+
+    document.getElementById('send').style.visibility = 'visible';
+    document.getElementById('edit').style.visibility = 'hidden';
+
+    nav.remove();
+})
+
+document.getElementById('edit').addEventListener('click', () => {
+    if (id == null) {
+        return;
+    }
+    let nav = document.getElementById(id);
+    let formFields = document.forms[0].elements;
+
+    contents[nav.id].category = formFields.category.value;
+    contents[nav.id].price = formFields.price.value;
+    contents[nav.id].rating = formFields.rating.value;
+
+    nav.childNodes[0].innerText = formFields.category.value;
+    nav.childNodes[1].innerText = formFields.price.value;
+    nav.childNodes[2].innerText = formFields.rating.value;
+
+    formFields.category.labels[0].innerText = 'Введите категорию';
+    formFields.price.labels[0].innerText = 'Введите ценовой диапазон';
+    formFields.rating.labels[0].innerText = 'Введите рейтинг';
+    formFields.category.value = '';
+    formFields.price.value = '';
+    formFields.rating.value = '';
+
+    Array.from(tab.childNodes).forEach(e => {
+        if (e.classList.contains('forColor'))
+            e.classList.remove('forColor');
+    })
+
+    document.getElementById('send').style.visibility = 'visible';
+    document.getElementById('edit').style.visibility = 'hidden';
+
 })
 
 document.getElementById('send').addEventListener('click', ()=>{addNew()})
