@@ -126,8 +126,6 @@ fillTable(contents, headers);
 
 let tab = document.getElementsByClassName('tab')[0]
 
-let temp;
-
 let id = null;
 
 tab.addEventListener('click', () =>tableFunction(event))
@@ -243,6 +241,21 @@ document.getElementById('desc').addEventListener('click', ()=>{
 })
 
 document.getElementById('send').addEventListener('click', ()=>{addNew()})
+
+document.getElementById('filter').addEventListener('input', (event) => {
+    let filter = event.target.value;
+
+    let filteredContent = contents.filter(elem => {
+        if (elem.category.includes(filter))
+            return elem;
+    })
+    tab.remove();
+    createTable();
+    fillTable(filteredContent);
+    document.getElementsByClassName('tab')[0].addEventListener('click', () =>{
+        tableFunction(event)
+    })
+})
 
 function tableFunction(event) {
     if (event.target.parentElement.className === 'forAnyChange') {
