@@ -117,7 +117,7 @@ function addNew() {
     formFields.price.value = '';
     formFields.rating.value = '';
 
-    tab.appendChild(newTr);
+    document.querySelector('.tab').appendChild(newTr);
 }
 
 
@@ -126,36 +126,11 @@ fillTable(contents, headers);
 
 let tab = document.getElementsByClassName('tab')[0]
 
+let temp;
+
 let id = null;
 
-tab.addEventListener('click', event => {
-    if (event.target.parentElement.className === 'forAnyChange') {
-
-        Array.from(tab.childNodes).forEach(e => {
-            if (e.classList.contains('forColor'))
-                e.classList.remove('forColor');
-        })
-        event.target.parentElement.classList.add('forColor')
-
-        let nav = event.target.parentElement;
-        let formFields = document.forms[0].elements;
-
-        formFields.category.labels[0].innerText = 'Поменяйте категорию';
-        formFields.price.labels[0].innerText = 'Поменяйте ценовой диапазон';
-        formFields.rating.labels[0].innerText = 'Поменяйте рейтинг';
-
-        formFields.category.value = contents[nav.id].category;
-        formFields.price.value = contents[nav.id].price;
-        formFields.rating.value = contents[nav.id].rating;
-
-        document.getElementById('edit').style.visibility = 'visible';
-        document.getElementById('send').style.visibility = 'hidden';
-
-        id = nav.id;
-
-
-    }
-})
+tab.addEventListener('click', () =>tableFunction(event))
 
 document.getElementById('delete').addEventListener('click', () => {
     if (id == null) {
@@ -226,4 +201,70 @@ document.getElementById('edit').addEventListener('click', () => {
 
 })
 
+document.getElementById('asc').addEventListener('click', ()=>{
+
+    for (let i = 0; i < contents.length - 1; i++) {
+        for (let j = 0; j <contents.length - 1 - i; j++){
+            if (contents[j+1].category.charAt(0) < contents[j].category.charAt(0)){
+                let t = contents[j+1];
+                // let tempTr = document.getElementById(`${j+1}`)
+                contents[j+1] = contents[j];
+                contents[j] = t;
+            }
+        }
+    }
+    tab.remove();
+    createTable();
+    fillTable(contents);
+
+    document.getElementsByClassName('tab')[0].addEventListener('click', () =>{
+        tableFunction(event)
+    })
+
+})
+
+document.getElementById('desc').addEventListener('click', ()=>{
+
+    for (let i = 0; i < contents.length - 1; i++) {
+        for (let j = 0; j <contents.length - 1 - i; j++){
+            if (contents[j+1].category.charAt(0) > contents[j].category.charAt(0)){
+                let t = contents[j+1];
+                contents[j+1] = contents[j];
+                contents[j] = t;
+            }
+        }
+    }
+    tab.remove();
+    createTable();
+    fillTable(contents);
+    document.getElementsByClassName('tab')[0].addEventListener('click', () =>{
+        tableFunction(event)
+    })
+})
+
 document.getElementById('send').addEventListener('click', ()=>{addNew()})
+
+function tableFunction(event) {
+    if (event.target.parentElement.className === 'forAnyChange') {
+        Array.from(document.getElementsByClassName('tab')[0].childNodes).forEach(e => {
+            if (e.classList.contains('forColor'))
+                e.classList.remove('forColor');
+        })
+        event.target.parentElement.classList.add('forColor')
+        let nav = event.target.parentElement;
+        let formFields = document.forms[0].elements;
+
+        formFields.category.labels[0].innerText = 'Поменяйте категорию';
+        formFields.price.labels[0].innerText = 'Поменяйте ценовой диапазон';
+        formFields.rating.labels[0].innerText = 'Поменяйте рейтинг';
+
+        formFields.category.value = contents[nav.id].category;
+        formFields.price.value = contents[nav.id].price;
+        formFields.rating.value = contents[nav.id].rating;
+
+        document.getElementById('edit').style.visibility = 'visible';
+        document.getElementById('send').style.visibility = 'hidden';
+
+        id = nav.id;
+    }
+}
