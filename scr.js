@@ -204,7 +204,8 @@ document.getElementById('asc').addEventListener('click', ()=>{
 
 
     contents.sort( (a, b)=> {
-        if (a.category.charAt(0) > b.category.charAt(0)) return 1
+        if (a.category.charAt(0) === b.category.charAt(0)) return 0
+        else if (a.category.charAt(0) > b.category.charAt(0)) return 1
         else return -1
     })
     tab.remove();
@@ -220,7 +221,8 @@ document.getElementById('asc').addEventListener('click', ()=>{
 document.getElementById('desc').addEventListener('click', ()=>{
 
     contents.sort( (a, b)=> {
-        if (a.category.charAt(0) < b.category.charAt(0)) return 1
+        if (a.category.charAt(0) === b.category.charAt(0)) return 0
+        else if (a.category.charAt(0) < b.category.charAt(0)) return 1
         else return -1
     })
     tab.remove();
