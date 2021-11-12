@@ -1,41 +1,49 @@
 const contents = [
     {
+        id: 0,
         category: 'Игровые компьютеры',
         rating: '4.6',
         price: '50т.р. - 80т.р',
 
     },
     {
+        id: 1,
         category: 'Офисные компьютеры',
         price: '30т.р. - 60т.р',
         rating: '4.8'
     },
     {
+        id: 2,
         category: 'Серверное оборудование',
         price: '100т.р. - 200т.р',
         rating: '4.7'
     },
     {
+        id: 3,
         category: 'Ноутбуки',
         price: '50т.р. - 120т.р',
         rating: '4.7'
     },
     {
+        id: 4,
         category: 'Принтеры, МФУ',
         price: '10т.р. - 50т.р',
         rating: '4.9'
     },
     {
+        id: 5,
         category: 'Смартфоны',
         price: '10т.р. - 120т.р',
         rating: '4.3'
     },
     {
+        id: 6,
         category: '3Д принтеры',
         price: '10т.р. - 50т.р',
         rating: '4.9'
     },
     {
+        id: 7,
         category: 'DIY электроник',
         price: '10т.р. - 50т.р',
         rating: '4.1'
@@ -70,11 +78,10 @@ function createTable(header = headers) {
 }
 
 function fillTable(content = contents, header = headers) {
-    let index = 0;
     content.forEach((elem) => {
 
         let tr = document.createElement('tr');
-        tr.setAttribute('id', `${index++}`);
+        tr.setAttribute('id', `${elem.id}`);
         tr.setAttribute('class', 'forAnyChange');
 
         header.forEach(head => {
@@ -94,10 +101,21 @@ function addNew() {
         price: formFields.price.value,
         rating: formFields.rating.value
     };
+
+
+    let maxId = 0;
+    contents.forEach(elem => {
+         maxId = elem.id;
+    })
+
     contents.push(temp);
 
+    maxId++
+
+    temp.id = maxId;
+
     let newTr = document.createElement('tr');
-    newTr.setAttribute('id', contents.length - 1);
+    newTr.setAttribute('id', temp.id);
     newTr.setAttribute('class', 'forAnyChange');
 
     let tr1 = document.createElement('td');
@@ -111,6 +129,7 @@ function addNew() {
     let tr3 = document.createElement('td');
     tr3.innerHTML = temp.rating;
     tr3.setAttribute('name', 'rating');
+
     newTr.appendChild(tr3);
 
     formFields.category.value = '';
@@ -151,11 +170,7 @@ document.getElementById('delete').addEventListener('click', () => {
     formFields.price.value = '';
     formFields.rating.value = '';
 
-    nav.parentElement.childNodes.forEach(node=> {
-        if (+node.id > id){
-            node.id--;
-        }
-    })
+
 
     formFields.category.labels[0].innerText = 'Введите категорию';
     formFields.price.labels[0].innerText = 'Введите ценовой диапазон';
@@ -164,7 +179,14 @@ document.getElementById('delete').addEventListener('click', () => {
     document.getElementById('send').style.visibility = 'visible';
     document.getElementById('edit').style.visibility = 'hidden';
 
-    nav.remove();
+    tab.remove();
+    createTable();
+    fillTable(contents);
+
+    document.getElementsByClassName('tab')[0].addEventListener('click', () =>{
+        tableFunction(event)
+    })
+
 })
 
 document.getElementById('edit').addEventListener('click', () => {
@@ -200,9 +222,6 @@ document.getElementById('edit').addEventListener('click', () => {
 })
 
 document.getElementById('asc').addEventListener('click', ()=>{
-
-
-
     contents.sort( (a, b)=> {
         if (a.category.charAt(0) === b.category.charAt(0)) return 0
         else if (a.category.charAt(0) > b.category.charAt(0)) return 1
@@ -215,11 +234,9 @@ document.getElementById('asc').addEventListener('click', ()=>{
     document.getElementsByClassName('tab')[0].addEventListener('click', () =>{
         tableFunction(event)
     })
-
 })
 
 document.getElementById('desc').addEventListener('click', ()=>{
-
     contents.sort( (a, b)=> {
         if (a.category.charAt(0) === b.category.charAt(0)) return 0
         else if (a.category.charAt(0) < b.category.charAt(0)) return 1
@@ -228,6 +245,7 @@ document.getElementById('desc').addEventListener('click', ()=>{
     tab.remove();
     createTable();
     fillTable(contents);
+
     document.getElementsByClassName('tab')[0].addEventListener('click', () =>{
         tableFunction(event)
     })
@@ -237,16 +255,15 @@ document.getElementById('send').addEventListener('click', ()=>{addNew()})
 
 document.getElementById('filter').addEventListener('input', (event) => {
     let filter = event.target.value;
-
     let filteredContent = contents.filter(elem => {
-        if (elem.category.includes(filter))
+        if (elem.category.toUpperCase().includes(filter.toUpperCase()))
             return elem;
     })
     tab.remove();
     createTable();
     fillTable(filteredContent);
     document.getElementsByClassName('tab')[0].addEventListener('click', () =>{
-        tableFunction(event)
+        tableFunction(event);
     })
 })
 
