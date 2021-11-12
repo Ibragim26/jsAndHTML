@@ -128,7 +128,7 @@ let tab = document.getElementsByClassName('tab')[0]
 
 let id = null;
 
-tab.addEventListener('click', () =>tableFunction(event))
+tab.addEventListener('click', () => tableFunction(event))
 
 document.getElementById('delete').addEventListener('click', () => {
     if (id == null) {
@@ -201,16 +201,12 @@ document.getElementById('edit').addEventListener('click', () => {
 
 document.getElementById('asc').addEventListener('click', ()=>{
 
-    for (let i = 0; i < contents.length - 1; i++) {
-        for (let j = 0; j <contents.length - 1 - i; j++){
-            if (contents[j+1].category.charAt(0) < contents[j].category.charAt(0)){
-                let t = contents[j+1];
-                // let tempTr = document.getElementById(`${j+1}`)
-                contents[j+1] = contents[j];
-                contents[j] = t;
-            }
-        }
-    }
+
+
+    contents.sort( (a, b)=> {
+        if (a.category.charAt(0) > b.category.charAt(0)) return 1
+        else return -1
+    })
     tab.remove();
     createTable();
     fillTable(contents);
@@ -223,15 +219,10 @@ document.getElementById('asc').addEventListener('click', ()=>{
 
 document.getElementById('desc').addEventListener('click', ()=>{
 
-    for (let i = 0; i < contents.length - 1; i++) {
-        for (let j = 0; j <contents.length - 1 - i; j++){
-            if (contents[j+1].category.charAt(0) > contents[j].category.charAt(0)){
-                let t = contents[j+1];
-                contents[j+1] = contents[j];
-                contents[j] = t;
-            }
-        }
-    }
+    contents.sort( (a, b)=> {
+        if (a.category.charAt(0) < b.category.charAt(0)) return 1
+        else return -1
+    })
     tab.remove();
     createTable();
     fillTable(contents);
