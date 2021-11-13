@@ -1,3 +1,10 @@
+
+// let requestURL = 'https://jsonplaceholder.typicode.com/todos';
+//
+// let request = new XMLHttpRequest();
+//
+// let data = request.open('GET', requestURL)
+
 const contents = [
     {
         id: 0,
@@ -81,7 +88,6 @@ function fillTable(content = contents, header = headers) {
     content.forEach((elem) => {
 
         let tr = document.createElement('tr');
-        tr.setAttribute('id', `${elem.id}`);
         tr.setAttribute('class', 'forAnyChange');
 
         header.forEach(head => {
@@ -102,7 +108,6 @@ function addNew() {
         rating: formFields.rating.value
     };
 
-
     let maxId = 0;
     contents.forEach(elem => {
          maxId = elem.id;
@@ -115,7 +120,6 @@ function addNew() {
     temp.id = maxId;
 
     let newTr = document.createElement('tr');
-    newTr.setAttribute('id', temp.id);
     newTr.setAttribute('class', 'forAnyChange');
 
     let tr1 = document.createElement('td');
@@ -145,32 +149,34 @@ fillTable(contents, headers);
 
 let tab = document.getElementsByClassName('tab')[0]
 
-let id = null;
-
 tab.addEventListener('click', () => tableFunction(event))
 
 document.getElementById('delete').addEventListener('click', () => {
-    if (id == null) {
-        return;
-    }
     let result = confirm('Удалить выбранную строку ?');
+
+    let nav = document.getElementsByClassName('forColor')[0]
+
     if (!result) {
         Array.from(tab.childNodes).forEach(e => {
-            if (e.classList.contains('forColor'))
+            if (e.classList.contains('forColor')){
+
                 e.classList.remove('forColor');
+            }
+
         })
         return;
     }
-
-    let nav = document.getElementById(id);
     let formFields = document.forms[0].elements;
 
-    contents.splice(id, 1);
+    let index = contents.findIndex(elem => {
+        if (elem.category.includes(nav.childNodes[0].innerHTML))
+            return elem
+    })
+    contents.splice(index, 1);
+
     formFields.category.value = '';
     formFields.price.value = '';
     formFields.rating.value = '';
-
-
 
     formFields.category.labels[0].innerText = 'Введите категорию';
     formFields.price.labels[0].innerText = 'Введите ценовой диапазон';
@@ -190,15 +196,18 @@ document.getElementById('delete').addEventListener('click', () => {
 })
 
 document.getElementById('edit').addEventListener('click', () => {
-    if (id == null) {
-        return;
-    }
-    let nav = document.getElementById(id);
+    let nav = document.getElementsByClassName('forColor')[0];
+
     let formFields = document.forms[0].elements;
 
-    contents[nav.id].category = formFields.category.value;
-    contents[nav.id].price = formFields.price.value;
-    contents[nav.id].rating = formFields.rating.value;
+    let index = contents.findIndex(elem => {
+        if (elem.category.includes(nav.childNodes[0].innerHTML))
+            return elem
+    })
+
+    contents[index].category = formFields.category.value;
+    contents[index].price = formFields.price.value;
+    contents[index].rating = formFields.rating.value;
 
     nav.childNodes[0].innerText = formFields.category.value;
     nav.childNodes[1].innerText = formFields.price.value;
@@ -274,20 +283,19 @@ function tableFunction(event) {
                 e.classList.remove('forColor');
         })
         event.target.parentElement.classList.add('forColor')
-        let nav = event.target.parentElement;
+        let nav = document.getElementsByClassName('forColor')[0];
         let formFields = document.forms[0].elements;
 
         formFields.category.labels[0].innerText = 'Поменяйте категорию';
         formFields.price.labels[0].innerText = 'Поменяйте ценовой диапазон';
         formFields.rating.labels[0].innerText = 'Поменяйте рейтинг';
 
-        formFields.category.value = contents[nav.id].category;
-        formFields.price.value = contents[nav.id].price;
-        formFields.rating.value = contents[nav.id].rating;
+        formFields.category.value = nav.childNodes[0].innerHTML;
+        formFields.price.value = nav.childNodes[1].innerHTML;
+        formFields.rating.value = nav.childNodes[2].innerHTML;
 
         document.getElementById('edit').style.visibility = 'visible';
         document.getElementById('send').style.visibility = 'hidden';
 
-        id = nav.id;
     }
 }
