@@ -1,61 +1,63 @@
-
-// let requestURL = 'https://jsonplaceholder.typicode.com/todos';
+// const contents = [
+//     {
+//         id: 0,
+//         category: 'Игровые компьютеры',
+//         rating: '4.6',
+//         price: '50т.р. - 80т.р',
 //
-// let request = new XMLHttpRequest();
-//
-// let data = request.open('GET', requestURL)
+//     },
+//     {
+//         id: 1,
+//         category: 'Офисные компьютеры',
+//         price: '30т.р. - 60т.р',
+//         rating: '4.8'
+//     },
+//     {
+//         id: 2,
+//         category: 'Серверное оборудование',
+//         price: '100т.р. - 200т.р',
+//         rating: '4.7'
+//     },
+//     {
+//         id: 3,
+//         category: 'Ноутбуки',
+//         price: '50т.р. - 120т.р',
+//         rating: '4.7'
+//     },
+//     {
+//         id: 4,
+//         category: 'Принтеры, МФУ',
+//         price: '10т.р. - 50т.р',
+//         rating: '4.9'
+//     },
+//     {
+//         id: 5,
+//         category: 'Смартфоны',
+//         price: '10т.р. - 120т.р',
+//         rating: '4.3'
+//     },
+//     {
+//         id: 6,
+//         category: '3Д принтеры',
+//         price: '10т.р. - 50т.р',
+//         rating: '4.9'
+//     },
+//     {
+//         id: 7,
+//         category: 'DIY электроник',
+//         price: '10т.р. - 50т.р',
+//         rating: '4.1'
+//     },
+// ];
 
-const contents = [
-    {
-        id: 0,
-        category: 'Игровые компьютеры',
-        rating: '4.6',
-        price: '50т.р. - 80т.р',
-
-    },
-    {
-        id: 1,
-        category: 'Офисные компьютеры',
-        price: '30т.р. - 60т.р',
-        rating: '4.8'
-    },
-    {
-        id: 2,
-        category: 'Серверное оборудование',
-        price: '100т.р. - 200т.р',
-        rating: '4.7'
-    },
-    {
-        id: 3,
-        category: 'Ноутбуки',
-        price: '50т.р. - 120т.р',
-        rating: '4.7'
-    },
-    {
-        id: 4,
-        category: 'Принтеры, МФУ',
-        price: '10т.р. - 50т.р',
-        rating: '4.9'
-    },
-    {
-        id: 5,
-        category: 'Смартфоны',
-        price: '10т.р. - 120т.р',
-        rating: '4.3'
-    },
-    {
-        id: 6,
-        category: '3Д принтеры',
-        price: '10т.р. - 50т.р',
-        rating: '4.9'
-    },
-    {
-        id: 7,
-        category: 'DIY электроник',
-        price: '10т.р. - 50т.р',
-        rating: '4.1'
-    },
-];
+const contents = [];
+const url = 'data.json'
+async function getContent() {
+    const response = await fetch(url)
+    const data = await response.json()
+    data.forEach(e => contents.push(e))
+}
+getContent()
 
 const headers = [
     {
@@ -86,10 +88,8 @@ function createTable(header = headers) {
 
 function fillTable(content = contents, header = headers) {
     content.forEach((elem) => {
-
         let tr = document.createElement('tr');
         tr.setAttribute('class', 'forAnyChange');
-
         header.forEach(head => {
             let td = document.createElement('td');
             td.setAttribute('name', `${head.field}`);
@@ -143,10 +143,9 @@ function addNew() {
     document.querySelector('.tab').appendChild(newTr);
 }
 
-
 createTable(headers);
-pagination()
-// fillTable(contents, headers);
+createTable()
+
 
 let tab = document.getElementsByClassName('tab')[0]
 
@@ -281,7 +280,6 @@ document.getElementById('filter').addEventListener('input', (event) => {
 })
 
 
-
 function pagination() {
     if (document.getElementsByClassName('pagination')[0] != null ||
         document.getElementsByClassName('pagination')[0] !== undefined)
@@ -303,7 +301,6 @@ function pagination() {
 
     let defaultArr = contents.slice(0, notesOnPage)
     fillTable(defaultArr)
-
     ul.addEventListener('click', ev => {
         if (ev.target.className === 'liPage') {
 
@@ -324,8 +321,6 @@ function pagination() {
 
             createTable();
             fillTable(notes);
-
-
 
             document.getElementsByClassName('tab')[0].addEventListener('click', () => tableFunction(event))
     }
