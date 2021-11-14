@@ -53,6 +53,14 @@ th{
     font-size: 20px;
 }
 
+.liPage{
+    display: inline-grid;
+    margin: 15px;
+}
+.pagination{
+    border: 2px;
+}
+
 .forAnyChange:nth-child(even) {background: #C9E3FE}
 
 caption {

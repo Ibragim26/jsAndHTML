@@ -153,9 +153,7 @@ tab.addEventListener('click', () => tableFunction(event))
 
 document.getElementById('delete').addEventListener('click', () => {
     let result = confirm('Удалить выбранную строку ?');
-
     let nav = document.getElementsByClassName('forColor')[0]
-
     if (!result) {
         Array.from(tab.childNodes).forEach(e => {
             if (e.classList.contains('forColor')){
@@ -166,6 +164,8 @@ document.getElementById('delete').addEventListener('click', () => {
         })
         return;
     }
+    pagination();
+
     let formFields = document.forms[0].elements;
 
     let index = contents.findIndex(elem => {
@@ -260,7 +260,10 @@ document.getElementById('desc').addEventListener('click', ()=>{
     })
 })
 
-document.getElementById('send').addEventListener('click', ()=>{addNew()})
+document.getElementById('send').addEventListener('click', ()=>{
+    pagination();
+    addNew();
+})
 
 document.getElementById('filter').addEventListener('input', (event) => {
     let filter = event.target.value;
@@ -275,6 +278,47 @@ document.getElementById('filter').addEventListener('input', (event) => {
         tableFunction(event);
     })
 })
+
+pagination()
+
+function pagination() {
+    if (document.getElementsByClassName('pagination')[0] != null ||
+        document.getElementsByClassName('pagination')[0] !== undefined)
+            document.getElementsByClassName('pagination')[0].remove();
+
+    let ul = document.createElement('ul');
+    ul.setAttribute('class', 'pagination');
+    document.getElementsByClassName('paging')[0].appendChild(ul);
+
+    let notesOnPage = 3;
+    let quantityOfPage = Math.round(contents.length / notesOnPage);
+    for (let i = 0; i < quantityOfPage; i++) {
+        let li = document.createElement('li');
+        li.setAttribute('class', 'liPage');
+        li.innerHTML = (i + 1).toString();
+        ul.appendChild(li);
+    }
+
+    ul.addEventListener('click', ev => {
+        if (ev.target.className === 'liPage') {
+            let pageNum = ev.target.innerHTML - 1;
+
+            let start = pageNum * notesOnPage;
+            let end = start + notesOnPage;
+
+            let notes = contents.slice(start, end);
+
+            document.getElementsByClassName('tab')[0].remove();
+
+            createTable();
+            fillTable(notes);
+
+            document.getElementsByClassName('tab')[0].addEventListener('click', () => tableFunction(event))
+    }
+
+    })
+
+}
 
 function tableFunction(event) {
     if (event.target.parentElement.className === 'forAnyChange') {
