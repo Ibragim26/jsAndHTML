@@ -57,9 +57,10 @@ th{
     display: inline-grid;
     margin: 15px;
 }
-.pagination{
-    border: 2px;
-}
+
+/*.pagination{*/
+/*    border: 2px;*/
+/*}*/
 
 .forAnyChange:nth-child(even) {background: #C9E3FE}
 
@@ -154,5 +155,14 @@ nav{
 }
 
 td:hover{
+    color: red;
+}
+
+.liPage:hover{
+    cursor: pointer;
+    color: red;
+    border: 1px red;
+}
+.liPage.active {
     color: red;
 }

@@ -145,7 +145,8 @@ function addNew() {
 
 
 createTable(headers);
-fillTable(contents, headers);
+pagination()
+// fillTable(contents, headers);
 
 let tab = document.getElementsByClassName('tab')[0]
 
@@ -279,7 +280,7 @@ document.getElementById('filter').addEventListener('input', (event) => {
     })
 })
 
-pagination()
+
 
 function pagination() {
     if (document.getElementsByClassName('pagination')[0] != null ||
@@ -289,18 +290,29 @@ function pagination() {
     let ul = document.createElement('ul');
     ul.setAttribute('class', 'pagination');
     document.getElementsByClassName('paging')[0].appendChild(ul);
-
     let notesOnPage = 3;
-    let quantityOfPage = Math.round(contents.length / notesOnPage);
-    for (let i = 0; i < quantityOfPage; i++) {
+    let countOfPage = Math.ceil(contents.length / notesOnPage);
+    let listLi = [];
+    for (let i = 0; i < countOfPage; i++) {
         let li = document.createElement('li');
         li.setAttribute('class', 'liPage');
         li.innerHTML = (i + 1).toString();
+        listLi.push(li)
         ul.appendChild(li);
     }
 
+    let defaultArr = contents.slice(0, notesOnPage)
+    fillTable(defaultArr)
+
     ul.addEventListener('click', ev => {
         if (ev.target.className === 'liPage') {
+
+            Array.from(ul.childNodes).forEach(e => {
+                if (e.classList.contains('active'))
+                    e.classList.remove('active');
+            })
+            ev.target.classList.add('active')
+
             let pageNum = ev.target.innerHTML - 1;
 
             let start = pageNum * notesOnPage;
@@ -312,6 +324,8 @@ function pagination() {
 
             createTable();
             fillTable(notes);
+
+
 
             document.getElementsByClassName('tab')[0].addEventListener('click', () => tableFunction(event))
     }
