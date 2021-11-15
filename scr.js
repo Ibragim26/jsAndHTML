@@ -52,7 +52,7 @@
 
 const contents = [];
 const xhr = new XMLHttpRequest();
-xhr.open('GET', 'data.json');
+xhr.open('GET', 'data.json', false);
 xhr.onreadystatechange = function() {
     if (xhr.readyState !== 4 || xhr.status !== 200) {
         return;
@@ -149,7 +149,7 @@ function addNew() {
 }
 
 createTable(headers);
-setTimeout(fillTable, 100)
+fillTable()
 
 let id = null;
 
