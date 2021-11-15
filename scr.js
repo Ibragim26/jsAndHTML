@@ -149,7 +149,7 @@ function addNew() {
 }
 
 createTable(headers);
-createTable()
+setTimeout(fillTable, 100)
 
 let id = null;
 
