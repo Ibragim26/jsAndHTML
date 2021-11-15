@@ -121,37 +121,38 @@ function addNew() {
 
     let maxId = 0;
     contents.forEach(elem => {
+        if (elem.id > maxId)
          maxId = elem.id;
     })
-
+    temp.id = ++maxId;
     contents.push(temp);
 
-    maxId++
 
-    temp.id = maxId;
+    console.log(contents)
 
     let newTr = document.createElement('tr');
     newTr.setAttribute('class', 'forAnyChange');
+    newTr.setAttribute('id', maxId);
 
-    let tr1 = document.createElement('td');
-    tr1.setAttribute('name', 'category');
-    tr1.innerHTML = temp.category;
-    newTr.appendChild(tr1);
-    let tr2 = document.createElement('td');
-    tr2.innerHTML = temp.price;
-    tr2.setAttribute('name', 'price');
-    newTr.appendChild(tr2);
-    let tr3 = document.createElement('td');
-    tr3.innerHTML = temp.rating;
-    tr3.setAttribute('name', 'rating');
 
-    newTr.appendChild(tr3);
+    let td1 = document.createElement('td');
+    td1.setAttribute('name', 'category');
+    td1.innerHTML = temp.category;
+    newTr.appendChild(td1);
+    let td2 = document.createElement('td');
+    td2.innerHTML = temp.price;
+    td2.setAttribute('name', 'price');
+    newTr.appendChild(td2);
+    let td3 = document.createElement('td');
+    td3.innerHTML = temp.rating;
+    td3.setAttribute('name', 'rating');
+    newTr.appendChild(td3);
 
     formFields.category.value = '';
     formFields.price.value = '';
     formFields.rating.value = '';
 
-    document.querySelector('.tab').appendChild(newTr);
+    document.getElementsByClassName('tab')[0].appendChild(newTr);
 }
 
 tab.addEventListener('click', () => tableFunction(event))
@@ -197,16 +198,11 @@ document.getElementById('delete').addEventListener('click', () => {
 })
 
 document.getElementById('edit').addEventListener('click', () => {
-    let nav = document.getElementsByClassName('forColor')[0];
     let formFields = document.forms[0].elements;
-    let index = contents.findIndex(elem => {
-        if (elem.category.includes(nav.childNodes[0].innerHTML))
-            return elem
-    })
 
-    contents[index].category = formFields.category.value;
-    contents[index].price = formFields.price.value;
-    contents[index].rating = formFields.rating.value;
+    contents[id].category = formFields.category.value;
+    contents[id].price = formFields.price.value;
+    contents[id].rating = formFields.rating.value;
 
     document.getElementsByClassName('tab')[0].remove();
 
@@ -259,7 +255,6 @@ document.getElementById('desc').addEventListener('click', ()=>{
 })
 
 document.getElementById('send').addEventListener('click', ()=>{
-    pagination();
     addNew();
 })
 
