@@ -60,9 +60,10 @@ xhr.onreadystatechange = function() {
     }
     const response = JSON.parse(xhr.responseText);
     response.forEach(e => contents.push(e))
+    fillTable(contents)
 }
 xhr.send();
-timeOnQuery = Date.now() - timeOnQuery;
+timeOnQuery = Date.now() - timeOnQuery + 1;
 
 const headers = [
     {
@@ -78,6 +79,9 @@ const headers = [
         field: 'rating'
     }
 ];
+createTable(headers);
+let id = null;
+let tab = document.getElementsByClassName('tab')[0]
 
 function createTable(header = headers) {
     document.querySelector('.dynTa')
@@ -150,13 +154,6 @@ function addNew() {
     document.querySelector('.tab').appendChild(newTr);
 }
 
-createTable(headers);
-setTimeout(fillTable, timeOnQuery)
-
-let id = null;
-
-let tab = document.getElementsByClassName('tab')[0]
-
 tab.addEventListener('click', () => tableFunction(event))
 
 document.getElementById('delete').addEventListener('click', () => {
@@ -169,7 +166,6 @@ document.getElementById('delete').addEventListener('click', () => {
 
                 e.classList.remove('forColor');
             }
-
         })
         return;
     }
@@ -202,9 +198,7 @@ document.getElementById('delete').addEventListener('click', () => {
 
 document.getElementById('edit').addEventListener('click', () => {
     let nav = document.getElementsByClassName('forColor')[0];
-
     let formFields = document.forms[0].elements;
-
     let index = contents.findIndex(elem => {
         if (elem.category.includes(nav.childNodes[0].innerHTML))
             return elem
@@ -213,7 +207,6 @@ document.getElementById('edit').addEventListener('click', () => {
     contents[index].category = formFields.category.value;
     contents[index].price = formFields.price.value;
     contents[index].rating = formFields.rating.value;
-
 
     document.getElementsByClassName('tab')[0].remove();
 
@@ -246,7 +239,6 @@ document.getElementById('asc').addEventListener('click', ()=>{
     tab.remove();
     createTable();
     fillTable(contents);
-
     document.getElementsByClassName('tab')[0].addEventListener('click', () =>{
         tableFunction(event)
     })
@@ -261,7 +253,6 @@ document.getElementById('desc').addEventListener('click', ()=>{
     tab.remove();
     createTable();
     fillTable(contents);
-
     document.getElementsByClassName('tab')[0].addEventListener('click', () =>{
         tableFunction(event)
     })
@@ -331,9 +322,7 @@ function pagination() {
 
             document.getElementsByClassName('tab')[0].addEventListener('click', () => tableFunction(event))
     }
-
     })
-
 }
 
 function tableFunction(event) {
