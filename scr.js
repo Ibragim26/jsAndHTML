@@ -51,13 +51,16 @@
 // ];
 
 const contents = [];
-const url = 'data.json'
-async function getContent() {
-    const response = await fetch(url)
-    const data = await response.json()
-    data.forEach(e => contents.push(e))
+const xhr = new XMLHttpRequest();
+xhr.open('GET', 'data.json');
+xhr.onreadystatechange = function() {
+    if (xhr.readyState !== 4 || xhr.status !== 200) {
+        return;
+    }
+    const response = JSON.parse(xhr.responseText);
+    response.forEach(e => contents.push(e))
 }
-getContent()
+xhr.send();
 
 const headers = [
     {
@@ -209,9 +212,11 @@ document.getElementById('edit').addEventListener('click', () => {
     contents[index].price = formFields.price.value;
     contents[index].rating = formFields.rating.value;
 
-    nav.childNodes[0].innerText = formFields.category.value;
-    nav.childNodes[1].innerText = formFields.price.value;
-    nav.childNodes[2].innerText = formFields.rating.value;
+
+    document.getElementsByClassName('tab')[0].remove();
+
+    createTable()
+    fillTable(contents);
 
     formFields.category.labels[0].innerText = 'Введите категорию';
     formFields.price.labels[0].innerText = 'Введите ценовой диапазон';
