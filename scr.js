@@ -93,6 +93,8 @@ function fillTable(content = contents, header = headers) {
     content.forEach((elem) => {
         let tr = document.createElement('tr');
         tr.setAttribute('class', 'forAnyChange');
+        tr.setAttribute('id', `${elem.id}`);
+
         header.forEach(head => {
             let td = document.createElement('td');
             td.setAttribute('name', `${head.field}`);
@@ -149,12 +151,14 @@ function addNew() {
 createTable(headers);
 createTable()
 
+let id = null;
 
 let tab = document.getElementsByClassName('tab')[0]
 
 tab.addEventListener('click', () => tableFunction(event))
 
 document.getElementById('delete').addEventListener('click', () => {
+    if (id === null || id === undefined) return;
     let result = confirm('Удалить выбранную строку ?');
     let nav = document.getElementsByClassName('forColor')[0]
     if (!result) {
@@ -171,11 +175,7 @@ document.getElementById('delete').addEventListener('click', () => {
 
     let formFields = document.forms[0].elements;
 
-    let index = contents.findIndex(elem => {
-        if (elem.category.includes(nav.childNodes[0].innerHTML))
-            return elem
-    })
-    contents.splice(index, 1);
+    contents.splice(id, 1);
 
     formFields.category.value = '';
     formFields.price.value = '';
@@ -340,6 +340,7 @@ function tableFunction(event) {
             if (e.classList.contains('forColor'))
                 e.classList.remove('forColor');
         })
+        id = event.target.parentElement.id;
         event.target.parentElement.classList.add('forColor')
         let nav = document.getElementsByClassName('forColor')[0];
         let formFields = document.forms[0].elements;
