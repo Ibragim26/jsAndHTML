@@ -51,8 +51,9 @@
 // ];
 
 const contents = [];
+let timeOnQuery = Date.now();
 const xhr = new XMLHttpRequest();
-xhr.open('GET', 'data.json', false);
+xhr.open('GET', 'data.json');
 xhr.onreadystatechange = function() {
     if (xhr.readyState !== 4 || xhr.status !== 200) {
         return;
@@ -61,6 +62,7 @@ xhr.onreadystatechange = function() {
     response.forEach(e => contents.push(e))
 }
 xhr.send();
+timeOnQuery = Date.now() - timeOnQuery;
 
 const headers = [
     {
@@ -149,7 +151,7 @@ function addNew() {
 }
 
 createTable(headers);
-fillTable()
+setTimeout(fillTable, timeOnQuery)
 
 let id = null;
 
