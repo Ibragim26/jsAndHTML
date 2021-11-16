@@ -26,9 +26,10 @@ $(function () {
     }
     xhr.send();
 
-    let id = null;
+    let id = -1;
 
     createTable()
+    $('#edit').hide()
 
     function createTable(header = headers) {
         $('<table class="tab" border="2"></table>').appendTo('.dynTa');
@@ -81,14 +82,9 @@ $(function () {
         if (id === null || id === undefined) return;
         let result = confirm('Удалить выбранную строку ?');
         if (!result) {
-            Array.from($('.forAnyChange')).forEach(e => {
-                if (e.classList.contains('forColor')){
-                    e.classList.remove('forColor');
-                }
-            })
+            $('.forColor').removeClass('forColor');
             return;
         }
-
 
         $('label[for="field_1"]').text('Введите категорию');
         $('label[for="field_2"]').text('Введите ваш ценовой диапозон');
@@ -101,12 +97,14 @@ $(function () {
         })
 
         contents.splice(id, 1);
-        document.getElementById('send').style.visibility = 'visible';
-        document.getElementById('edit').style.visibility = 'hidden';
+
+        $('#edit').hide();
+        $('#send').show();
 
         $('.tab').remove();
         createTable();
         fillTable(contents);
+
 
         $('.tab').click(()=>{tableFunction(event)})
     })
@@ -121,19 +119,17 @@ $(function () {
         createTable()
         fillTable(contents);
 
-        Array.from($('.forAnyChange')).forEach(e => {
-            if (e.classList.contains('forColor')){
-                e.classList.remove('forColor');
-            }
-        })
+        $('.forColor').removeClass('forColor');
+
         $('label[for="field_1"]').text('Введите категорию');
         $('label[for="field_2"]').text('Введите ваш ценовой диапозон');
         $('label[for="field_3"]').text('Введите рейтинг');
 
         $('.tab').click(()=>{tableFunction(event)})
 
-        document.getElementById('send').style.visibility = 'visible';
-        document.getElementById('edit').style.visibility = 'hidden';
+        id = null
+        $('#edit').hide();
+        $('#send').show();
     })
 
     $('#filter').on('input', (event) => {
@@ -157,7 +153,6 @@ $(function () {
         $('.tab').remove();
         createTable();
         fillTable(contents);
-
         $('.tab').click(()=>{tableFunction(event)})
     })
 
@@ -170,18 +165,17 @@ $(function () {
         $('.tab').remove();
         createTable();
         fillTable(contents);
-
         $('.tab').click(()=>{tableFunction(event)})
     })
 
     function tableFunction(event) {
         if (event.target.parentElement.className === 'forAnyChange') {
             let formFields = $('form input');
-            Array.from($('.tab tr')).forEach(e => {
-                if (e.classList.contains('forColor'))
-                    e.classList.remove('forColor');
-            })
+
+            $('.forColor').removeClass('forColor');
+
             id = event.target.parentElement.id;
+
             event.target.parentElement.classList.add('forColor')
 
             $('label[for="field_1"]').text('Поменяйте категорию');
@@ -191,9 +185,9 @@ $(function () {
             Array.from(formFields).forEach(e => {
                 e.value = $(`.forColor td[name=${e.name}]`).text()
             })
+            $('#edit').show();
+            $('#send').hide();
 
-            document.getElementById('edit').style.visibility = 'visible';
-            document.getElementById('send').style.visibility = 'hidden';
         }
     }
 })
