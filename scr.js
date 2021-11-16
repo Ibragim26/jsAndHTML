@@ -14,17 +14,14 @@ $(function () {
         }
     ];
     const contents = [];
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'data.json');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState !== 4 || xhr.status !== 200) {
-            return;
+    $.ajax({
+        url: 'data.json',
+        dataType: 'json',
+        success: (data) => {
+            data.forEach(e => contents.push(e))
+            fillTable()
         }
-        const response = JSON.parse(xhr.responseText);
-        response.forEach(e => contents.push(e))
-        fillTable()
-    }
-    xhr.send();
+    });
 
     let id = -1;
 
@@ -119,15 +116,13 @@ $(function () {
         createTable()
         fillTable(contents);
 
-        $('.forColor').removeClass('forColor');
-
         $('label[for="field_1"]').text('Введите категорию');
         $('label[for="field_2"]').text('Введите ваш ценовой диапозон');
         $('label[for="field_3"]').text('Введите рейтинг');
 
         $('.tab').click(()=>{tableFunction(event)})
 
-        id = null
+        id = null;
         $('#edit').hide();
         $('#send').show();
     })
@@ -173,9 +168,7 @@ $(function () {
             let formFields = $('form input');
 
             $('.forColor').removeClass('forColor');
-
             id = event.target.parentElement.id;
-
             event.target.parentElement.classList.add('forColor')
 
             $('label[for="field_1"]').text('Поменяйте категорию');
@@ -187,7 +180,6 @@ $(function () {
             })
             $('#edit').show();
             $('#send').hide();
-
         }
     }
 })
