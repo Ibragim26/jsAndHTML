@@ -95,12 +95,12 @@ $(function () {
             e.value = '';
         })
 
-        let myId = contents.findIndex(e => {
-            if (e.id == id)
-                return e
-        });
+        // let myId = contents.findIndex(e => {
+        //     if (e.id == id)
+        //         return e
+        // });
 
-        contents.splice(myId, 1);
+        contents.splice(id, 1);
 
 
         $('#edit').hide();
@@ -176,7 +176,12 @@ $(function () {
             let formFields = $('form input');
 
             $('.forColor').removeClass('forColor');
-            id = event.target.parentElement.id;
+
+            id = contents.findIndex(e => {
+                if (e.id == event.target.parentElement.id)
+                    return e
+            });
+
             event.target.parentElement.classList.add('forColor')
 
             $('label[for="field_1"]').text('Поменяйте категорию');
