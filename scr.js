@@ -17,6 +17,7 @@ $(function () {
     $.ajax({
         url: 'data.json',
         dataType: 'json',
+        cache: false,
         success: (data) => {
             data.forEach(e => contents.push(e))
             fillTable()
@@ -83,6 +84,7 @@ $(function () {
             return;
         }
 
+
         $('label[for="field_1"]').text('Введите категорию');
         $('label[for="field_2"]').text('Введите ваш ценовой диапозон');
         $('label[for="field_3"]').text('Введите рейтинг');
@@ -93,14 +95,20 @@ $(function () {
             e.value = '';
         })
 
-        contents.splice(id, 1);
+        let myId = contents.findIndex(e => {
+            if (e.id == id)
+                return e
+        });
+
+        contents.splice(myId, 1);
+
 
         $('#edit').hide();
         $('#send').show();
 
         $('.tab').remove();
         createTable();
-        fillTable(contents);
+        fillTable();
 
 
         $('.tab').click(()=>{tableFunction(event)})
